@@ -560,55 +560,6 @@ HTML::macro('closeTable', function () {
     return $table;
 });
 
-//macros para responder questionarios
-Form::macro('questionnaire', function($items) {
-    $return = '';
-    foreach ($items as $i => $item) {
-        $return .= "<p><strong>";
-        $return .= $i + 1;
-        $return .= ". ". $item->descTopicoItem;
-        $return .= "</strong></p>";
-
-        $return .= Form::questionnaireInput($item->id . '_' . $item->tipoForm, '', $item->tipoForm, $item->alternativasForm);
-        if ($item->permiteObs) {
-            $return .= Form::textFieldClean($item->id . '_obs', 'Observação');
-        }
-    }
-    return $return;
-});
-
-Form::macro('questionnaireInput', function ($name, $label = NULL, $type = 'TEXT', $options = [], $value = NULL) {
-    //dd($options);
-    if ($type == 'TEXT') {
-        $element = Form::textField($name, '', $value);
-        return $element;
-    } 
-    if ($type == 'RADIO') {
-        $element = Form::radioInline($name, 'Selecione uma opção', $options);
-        return $element;
-    }
-    if ($type == 'CHECKBOX') {
-        $return = '';
-        foreach ($options as $option) {
-            $element = Form::checkboxField($name, $option, $value);
-            $return .= $element;
-        }
-        return $return;
-    }
-    if ($type == 'TEXTAREA') {
-        $element = Form::textareaField($name, '', $value);
-        return $element;
-    }
-    if ($type == 'DROPDOWN') {
-        $element = Form::selectize($name, 'Selecione uma opção', $options);
-        return $element;
-    }
-    if ($type == 'UPLOAD') {
-        $element = Form::fileField($name, 'Selecione um Arquivo');
-        return $element;
-    }
-});
-
 function active($route, $active = 'active') {
     return Request::is($route) ? $active : '';
 }

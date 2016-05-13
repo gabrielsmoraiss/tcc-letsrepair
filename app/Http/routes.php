@@ -11,6 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
+//Route::get('/', function () { return view('index'); });
+
+Route::group(['middleware' => 'admin.auth'], function () {
+    //Pessoas
+    //Route::resource('users', 'UserController');
+
+	//index
+    Route::get('/logout', ['as' => 'admin.logout', 'uses' => 'AdminController@logout']);
+	Route::get('/', ['as' => 'index', 'uses' => 'AdminController@index']);
+});
+
+//Login Admin
+Route::group(['as' => 'admin.'], function () {
+    Route::get('/login', ['as' => 'login', 'uses' => 'AdminController@login']);
+    Route::post('/login', ['as' => 'authenticate', 'uses' => 'AdminController@authenticate']);
 });

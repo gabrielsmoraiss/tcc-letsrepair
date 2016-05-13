@@ -1,11 +1,20 @@
 <?php
 
-namespace App;
+namespace Domain\User;
 
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laracasts\Presenter\PresentableTrait;
 
 class User extends Authenticatable
 {
+    use PresentableTrait;
+
+    protected $table = 'users';
+
+    protected $guarded = [];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,4 +32,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Presenter
+     */
+    protected $presenter = UserPresenter::class;
 }
