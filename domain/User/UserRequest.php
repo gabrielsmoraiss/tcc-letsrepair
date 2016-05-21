@@ -3,7 +3,6 @@
 namespace Domain\User;
 
 use App\Http\Requests\Request;
-use Carbon\Carbon;
 
 class UserRequest extends Request
 {

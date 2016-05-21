@@ -15,40 +15,6 @@ class AdminController extends BaseController
      */
     public function index()
     {
-        return view('index');
-    }
-
-    /**
-     * Redireciona para a tela de login.
-     *
-     * @return Request
-     */
-    public function login()
-    {
-        return view('login');
-    }
-
-    /**
-     * Login e autenticação de usuario.
-     *
-     * @return Request
-     */
-    public function authenticate(UserRequest $request)
-    {
-        if (Auth::attempt($request->only('email', 'password'))) {
-            return 'Logou! Só Alegria!';
-            //return redirect()->route('admin.pessoas.index');
-        }
-        return $this->backWithFlash('Usuário não cadastrado!', 'danger');
-    }
-
-    /**
-     * Efetua Logout de usuario.
-     *
-     * @return Response
-     */
-    public function logout()
-    {
-        return $this->logoutWithFlash('admin.login', 'Você saiu!', 'warning');
+        return view('admin.index');
     }
 }

@@ -10,20 +10,17 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-//Route::get('/', function () { return view('index'); });
-
-Route::group(['middleware' => 'admin.auth'], function () {
-    //Pessoas
+Route::group(['middleware' => 'auth'], function () {
     //Route::resource('users', 'UserController');
 
 	//index
-    Route::get('/logout', ['as' => 'admin.logout', 'uses' => 'AdminController@logout']);
-	Route::get('/', ['as' => 'index', 'uses' => 'AdminController@index']);
+	Route::get('/admin', ['as' => 'admin.index', 'uses' => 'AdminController@index']);
 });
 
-//Login Admin
-Route::group(['as' => 'admin.'], function () {
-    Route::get('/login', ['as' => 'login', 'uses' => 'AdminController@login']);
-    Route::post('/login', ['as' => 'authenticate', 'uses' => 'AdminController@authenticate']);
-});
+Route::get('/', ['as' => 'index', 'uses' => 'Auth\AuthController@index']);
+
+//Authentication 
+Route::get('/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@login']);
+Route::post('/login', ['as' => 'auth.authenticate', 'uses' => 'Auth\AuthController@authenticate']);
+
+Route::get('/logout', ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@logout']);

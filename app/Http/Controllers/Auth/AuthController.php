@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Auth;
 use App\User;
 use Validator;
-use App\Http\Controllers\Controller;
+use Domain\User\UserRequest;
+use App\Http\Controllers\BaseController;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
     /*
     |--------------------------------------------------------------------------
@@ -53,6 +55,49 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
+    }
+
+    /**
+     * Mostra a tela inicial.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        return view('index');
+    }
+
+     /**
+     * Redireciona para a tela de login.
+     *
+     * @return Request
+     */
+    public function login()
+    {
+        return view('login');
+    }
+
+    /**
+     * Login e autenticação de usuario.
+     *
+     * @return Request
+     */
+    public function authenticate(UserRequest $request)
+    {
+        if (Auth::attempt($request->only('email', 'password'))) {
+            return redirect()->route('admin.index');
+        }
+        return $this->backWithFlash('Usuário não cadastrado!', 'danger');
+    }
+
+    /**
+     * Efetua Logout de usuario.
+     *
+     * @return Response
+     */
+    public function logout()
+    {
+        return $this->logoutWithFlash('index', 'Você saiu!', 'warning');
     }
 
     /**

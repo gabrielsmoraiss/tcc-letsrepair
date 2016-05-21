@@ -24,9 +24,9 @@
                     <li><a href="#"></a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">//<span class="caret"></span></a>
+                           aria-expanded="false">{{ words($current_user->name, 2,'') }}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{-- route('admin.logout') --}}" >Sair</a></li>
+                            <li><a href="{{ route('auth.logout') }}" >Sair</a></li>
                         </ul>
                     </li>
                 </ul>
