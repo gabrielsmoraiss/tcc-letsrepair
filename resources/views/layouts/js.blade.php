@@ -16,7 +16,9 @@ var circle;
 var layer;
 var radius = 40000;
 var tipoLocal = 'Autorizada';
-var tableid = '1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS';
+//var tableid = '1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS';
+var tableid = '1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ';
+
 
 function initMap() {
   latlng = new google.maps.LatLng(-20.642921,-47.225273); //minha casa
@@ -100,7 +102,9 @@ $('#js-filtrar').on('click', function() {
 	  
   geocoder.geocode( { 'address': address}, function(results, status) {
 	  if (status == google.maps.GeocoderStatus.OK) {
-	  	var pos = results[0].geometry.location; 
+	  	var pos = JSON.stringify(results[0].geometry.location);
+	  	pos = JSON.parse(pos);
+
 	  	//pesquisa os locais em volta..
 	   	markPlacesFromTables(pos, 'Autorizada', 50000);
 
@@ -131,17 +135,15 @@ $('#js-filtrar').on('click', function() {
     });  
   }
 
-  function markPlacesFromTables(myLocation, tipoLocal = 'Autorizada', radius = 50000) {
-
-    console.log(myLocation, tipoLocal, radius);
-
+  function markPlacesFromTables(myLocation, tipoLocal = 'Autorizada', kmSearch = 50000) {
+  	tipoLocal = 'notebook'
     //camada  do fusion table
     layer = new google.maps.FusionTablesLayer({
 	    query: {
 	      select: '\'Location\'',
 	      from: tableid,
-	      where: 'category like \'' + tipoLocal + '\' and ST_INTERSECTS(Location, CIRCLE(LATLNG('
-	      	+ myLocation.lat + ',' + myLocation.lng + '), ' + radius + '))'
+	      where: 'typeProducts like \'' + tipoLocal + '\' and ST_INTERSECTS(Location, CIRCLE(LATLNG('
+	      	+ myLocation.lat + ',' + myLocation.lng + '), ' + kmSearch + '))'
 	    }
 	  });
 	  layer.setMap(map);
@@ -154,7 +156,7 @@ $('#js-filtrar').on('click', function() {
       fillOpacity: 0.07,
       map: map,
       center: myLocation,	
-      radius: radius,
+      radius: kmSearch,
     });
 
     //marcar posição do user.
