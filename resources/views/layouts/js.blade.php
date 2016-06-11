@@ -14,9 +14,8 @@ var latlng;
 var geocoder;
 var circle;
 var layer;
-var radius = 40000;
+var markerMyLocation;
 var tipoLocal = 'Autorizada';
-//var tableid = '1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS';
 var tableid = '1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ';
 
 
@@ -38,12 +37,12 @@ if (navigator.geolocation) {
 	  navigator.geolocation.getCurrentPosition(function(position) {
 	    //se achou o local e o navegador suporta
 	    var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
-	    var $whenSearch = $('#whenSearch');
+	    var $address = $('#address');
 	    //Atribui localização encontrada ao input de onde pesquisar
 	    geocoder.geocode({'location': pos}, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
-          	$whenSearch.val(results[1].formatted_address);
+          	$address.val(results[1].formatted_address);
           } else {
             console.log('Local não encontrado!');
           }
@@ -74,6 +73,10 @@ function getEverythingAroundMe() {
 	      lat: position.coords.latitude,
 	      lng: position.coords.longitude
 	    };
+
+	    //limpa tudo os trem antes de marcar os locais
+	    clearMap()
+
 	   	//pesquisa todos os locais em volta..
 	   	markPlacesFromTables(pos);
 
@@ -93,20 +96,24 @@ $('#js-everythingAroundMe').on('click', function() {
 	getEverythingAroundMe();
 });
 
-//Filtro
-$('#js-filtrar').on('click', function() {
+var $form = $("#form-busca");
+$form.submit(function(e) {
+  e.preventDefault();
 
-  var address = $('#whenSearch').val();
-	//var meters = $('#kmSearch').val();
-	//var meters = $('#typeAssist').val();
+  var address = $('#address').val();
+	var radius = $('#radius').val();
+	var typeAssist = $('#typeAssist').val();
+	var typeProduct = $('#typeProduct').val();
+	var brandsAttended = $('#brandsAttended').val();
 	  
   geocoder.geocode( { 'address': address}, function(results, status) {
 	  if (status == google.maps.GeocoderStatus.OK) {
 	  	var pos = JSON.stringify(results[0].geometry.location);
 	  	pos = JSON.parse(pos);
 
+	  	clearMap();
 	  	//pesquisa os locais em volta..
-	   	markPlacesFromTables(pos, 'Autorizada', 50000);
+	   	markPlacesFromTables(pos, typeAssist, typeProduct, brandsAttended, parseInt(radius));
 
 	  } else {
 	    console.log("Geocode was not successful for the following reason: " + status);
@@ -114,14 +121,27 @@ $('#js-filtrar').on('click', function() {
 	
 	});
 });
-	
+
+//limpa todos os trem do mapa
+function clearMap() {
+	if(circle) {	
+		circle.setMap(null);
+	}
+	if(layer) {	
+		layer.setMap(null);
+	}
+	if(markerMyLocation) {	
+		markerMyLocation.setMap(null);
+	}
+}
+
 	//marca e centraliza o usuario com a posição dada.
   function tagMe(myLocation) {
 
     map.setCenter(myLocation);
 
     var image = 'https://cdn4.iconfinder.com/data/icons/map1/502/Untitled-11-48.png';
-    var markerMyLocation = new google.maps.Marker({
+    markerMyLocation = new google.maps.Marker({
         map: map,
         position: myLocation,
         title: 'Minha Localização',
@@ -135,20 +155,35 @@ $('#js-filtrar').on('click', function() {
     });  
   }
 
-  function markPlacesFromTables(myLocation, tipoLocal = 'Autorizada', kmSearch = 50000) {
-  	tipoLocal = 'notebook'
+  function markPlacesFromTables(
+  		myLocation,
+  		typeAssist = null,
+  		typeProduct = null,
+			brandsAttended = null,
+			radius = 50000
+		)
+  {
+  	var searchTypeAssist = typeAssist ? 'typeAssist like \'' + typeAssist + '\' and ' : '';
+  	var searchTypeProduct = typeProduct ? 'typeProduct like \'' + typeProduct + '\' and ' : '';
+  	var searchBrandsAttended = brandsAttended ? 'brandsAttended like \'' + brandsAttended + '\' and ' : '';
+
     //camada  do fusion table
     layer = new google.maps.FusionTablesLayer({
 	    query: {
 	      select: '\'Location\'',
 	      from: tableid,
-	      where: 'typeProducts like \'' + tipoLocal + '\' and ST_INTERSECTS(Location, CIRCLE(LATLNG('
-	      	+ myLocation.lat + ',' + myLocation.lng + '), ' + kmSearch + '))'
+	      where:
+	      	searchTypeAssist +
+	      	searchTypeProduct +
+	      	searchBrandsAttended +
+	      	' ST_INTERSECTS(Location, CIRCLE(LATLNG('+
+	      		myLocation.lat + ',' + myLocation.lng + '), ' + radius +
+	      	'))'
 	    }
 	  });
 	  layer.setMap(map);
 
-    var circle = new google.maps.Circle({
+    circle = new google.maps.Circle({
       strokeColor: '#0000ff',
       strokeOpacity: 0.4,
       strokeWeight: 1,
@@ -156,7 +191,7 @@ $('#js-filtrar').on('click', function() {
       fillOpacity: 0.07,
       map: map,
       center: myLocation,	
-      radius: kmSearch,
+      radius: radius,
     });
 
     //marcar posição do user.

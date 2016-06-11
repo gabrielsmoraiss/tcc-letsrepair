@@ -29,6 +29,19 @@ Form::macro('textField', function ($name, $label = NULL, $value = NULL, $attribu
     return field_wrapper($name, $label, $element);
 });
 
+Form::macro('numberFieldClean', function ($name, $label = NULL, $value = NULL, $attributes = []) {
+    $attributes = array_merge($attributes, ['placeholder' => $label]);
+    $element = Form::number($name, $value ? $value : old($name), field_attributes($name, $attributes));
+
+    return form_group($element, $name);
+});
+
+Form::macro('numberField', function ($name, $label = NULL, $value = NULL, $attributes = []) {
+    $element = Form::number($name, $value ? $value : old($name), field_attributes($name, $attributes));
+
+    return field_wrapper($name, $label, $element);
+});
+
 Form::macro('emailField', function ($name, $label = NULL, $value = NULL, $attributes = []) {
     $element = Form::email($name, $value ? $value : old($name), field_attributes($name, $attributes));
 

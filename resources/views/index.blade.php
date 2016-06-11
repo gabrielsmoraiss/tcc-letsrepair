@@ -22,11 +22,49 @@
 			</div>
 			<br>
 			<div class="filtro">
-				{!! Form::textField('whenSearch', 'Onde pesquisar', '', ['placeholder' => 'Digite o local de onde buscar']) !!}
+                <form id="form-busca">
+					{!! Form::textField('address', 'Onde pesquisar', '',
+						['placeholder' => 'Digite o local de onde buscar'])
+					!!}
 
-				<button type="submit"
-                    class="btn btn-success" id="js-filtrar"> Filtrar
-                </button>
+					{!! Form::selectField('typeAssist',
+						'Selecione o tipo da Assistência',
+						['AUTORIZADA' => 'Autorizada',
+							'ESPECIALIZADA' => 'Especializada
+						'],
+						['placeholder' => 'Buscar todos'])
+					!!}
+
+					{!! Form::selectField('typeProduct',
+						'Selecione o tipo do produto',
+						['CELULARES' => 'celulares',
+							'ELETRONICOS' => 'Eletrônicos',
+							'GPS' => 'GPS',
+							'NOTEBOOK' => 'notebook'
+						],
+						['placeholder' => 'Buscar todos'])
+					!!}
+
+					{!! Form::selectField('brandsAttended',
+						'Selecione a marca do produto',
+						['samsung' => 'Samsung',
+							'lg' => 'lg',
+							'sony' => 'sony',
+							'dell' => 'dell'
+						],
+						['placeholder' => 'Buscar todas as marcas'])
+					!!}
+
+					{!! Form::numberField('radius',
+						'Área coberta pela busca (até 50km)',
+						40000,
+						['placeholder' => '25 km', 'max' => 50000])
+					!!}
+
+					<button type="submit"
+	                    class="btn btn-success"> Filtrar
+	                </button>                
+                </form>
 			</div>
 		</div>
 	</div>
