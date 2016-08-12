@@ -16,7 +16,7 @@ var circle;
 var layer;
 var markerMyLocation;
 var tipoLocal = 'Autorizada';
-var tableid = '1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ';
+var tableId = '1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ';
 
 
 function initMap() {
@@ -167,23 +167,8 @@ function clearMap() {
   	var searchTypeProduct = typeProduct ? 'typeProduct like \'' + typeProduct + '\' and ' : '';
   	var searchBrandsAttended = brandsAttended ? 'brandsAttended like \'' + brandsAttended + '\' and ' : '';
 
-    //camada  do fusion table
-    layer = new google.maps.FusionTablesLayer({
-	    query: {
-	      select: '\'Location\'',
-	      from: tableid,
-	      where:
-	      	searchTypeAssist +
-	      	searchTypeProduct +
-	      	searchBrandsAttended +
-	      	' ST_INTERSECTS(Location, CIRCLE(LATLNG('+
-	      		myLocation.lat + ',' + myLocation.lng + '), ' + radius +
-	      	'))'
-	    }
-	  });
-	  layer.setMap(map);
-
-    circle = new google.maps.Circle({
+  	//Cria o circulo azul mostrando a abrangencia da pesquisa
+  	circle = new google.maps.Circle({
       strokeColor: '#0000ff',
       strokeOpacity: 0.4,
       strokeWeight: 1,
@@ -191,8 +176,68 @@ function clearMap() {
       fillOpacity: 0.07,
       map: map,
       center: myLocation,	
-      radius: radius,
+      radius: radius
     });
+
+    //camada  do fusion table
+    layer = new google.maps.FusionTablesLayer({
+	    query: {
+	      select: '\'Location\'',
+	      from: tableId,
+	      where:
+	      	searchTypeAssist +
+	      	searchTypeProduct +
+	      	searchBrandsAttended +
+	      	' ST_INTERSECTS(Location, CIRCLE(LATLNG('+
+	      		myLocation.lat + ',' + myLocation.lng + '), ' + radius +
+	      	'))'	      	
+	    },
+	    styles: [{
+		      where: 'typeAssist like \'AUTORIZADA\'',
+		      markerOptions: {
+				    iconName: "ylw_stars",
+				    zIndex:99
+				  }
+		    }, {
+		      where: 'typeAssist like \'ESPECIALIZADA\'',
+		      markerOptions: {
+				    iconName: "wht_blank",
+				    zIndex:100
+				  }
+		    }
+			],
+		  //suppressInfoWindows: true,
+		  map: map
+	  });
+
+    
+
+	  google.maps.event.addListener(circle, 'mouseover', function(e) {
+      circle.setVisible(false);
+    });
+
+	  google.maps.event.addListener(map, 'mouseout', function(e) {
+
+      circle.setVisible(true);
+      //circle.setMap(map);
+    });
+
+	  google.maps.event.addListener(layer, 'click', function(e) {
+
+      // Change the content of the InfoWindow
+      e.infoWindowHtml = e.row['name'].value + "<br>";
+      e.infoWindowHtml += "Vai parmera!";
+
+     /*
+      e.infoWindowHtml = e.row['Store Name'].value + "<br>";
+      // If the delivery == yes, add content to the window
+      if (e.row['delivery'].value == 'yes') {
+        e.infoWindowHtml += "Delivers!";
+      }*/
+    });
+      
+
+
 
     //marcar posição do user.
     tagMe(myLocation);
@@ -213,7 +258,7 @@ function clearMap() {
       fillOpacity: 0.07,
       map: map,
       center: myLocation,
-      radius: radius,
+      radius: radius
     });
 
     var options = {

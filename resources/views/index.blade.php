@@ -4,7 +4,6 @@
 @section('content')
 
 <div class="container">
-    <h1>Let's Repair!</h1>
 	<div class="row" >
 		<div class="col-sm-8">
 			<div style="height: 500px" id="map"></div>
@@ -63,9 +62,14 @@
 
 					<button type="submit"
 	                    class="btn btn-success"> Filtrar
-	                </button>                
+	                </button>
+	                <a href="https://www.googleapis.com/fusiontables/v2/query?sql=SELECT * FROM 1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ&key=AIzaSyB3eIgwMkqQtZuM7iVJi2is6EoktemIZ8E">Link panois
+	                </a>                
                 </form>
 			</div>
+			<br>
+			<p>*Icones Amarelos: Assistência Autorizada;</p>
+			<p>*Icones brancos: Assistência Especializada;</p>
 		</div>
 	</div>
 </div>

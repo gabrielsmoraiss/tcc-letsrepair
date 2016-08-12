@@ -15,9 +15,13 @@ Route::group(['middleware' => 'auth'], function () {
 
 	//index
 	Route::get('/admin', ['as' => 'admin.index', 'uses' => 'AdminController@index']);
+	//Route::get('/assistence', ['as' => 'admin.assistence', 'uses' => 'App\AssistenceController@index']);
+	Route::resource('assistence', 'App\AssistenceController');
+
 });
 
 Route::get('/', ['as' => 'index', 'uses' => 'Auth\AuthController@index']);
+
 
 //Authentication 
 Route::get('/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@login']);

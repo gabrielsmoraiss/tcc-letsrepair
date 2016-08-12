@@ -9,7 +9,9 @@
         "laravel/framework": "5.2.*",
         "laracasts/presenter": "^0.2.1",
         "lord/laroute": "2.*",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "rmccue/requests": "^1.6",
+        "google/apiclient": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

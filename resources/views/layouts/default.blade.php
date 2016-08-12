@@ -10,7 +10,6 @@
     <meta name="ROBOTS" content="INDEX,FOLLOW">
     <title>Let's Repair | @yield('title', 'Lets Repair')</title>
     @include('layouts.css')
-
 </head>
 
 
@@ -18,6 +17,8 @@
 {{--dd(!Request::is('index'))--}}
 @if($current_user)
     @include('layouts.navbar')
+@else
+    @include('layouts.navbarApp')
 @endif
 
 @yield('content')
