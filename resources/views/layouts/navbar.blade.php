@@ -3,7 +3,7 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <a class="navbar-brand" target="_blank" href="{{ route('index') }}">Let's Repair</a>
+                <a class="navbar-brand" href="{{ route('admin.index-admin') }}">Let's Repair</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -13,7 +13,7 @@
                         </a>
                     </li>
                     <li class="{{ active('admin/assistence*') }}">
-                        <a href="{{ route('assistence.index') }}" >
+                        <a href="{{ route('auth-google') }}" >
                             Assistências
                         </a>
                     </li>

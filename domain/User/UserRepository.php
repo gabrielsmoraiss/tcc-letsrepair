@@ -15,7 +15,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * Lista e retorna todos os eventos
+     * Lista e retorna todos os users
      *
      * @return Domain\User\User
      */
@@ -25,7 +25,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * Lista e retorna um evento espeficio
+     * Lista e retorna um user espeficio
      *
      * @param  int  $id
      * @return Domain\User\User
@@ -36,7 +36,23 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * Altera  ou adiciona um evento
+     * retorna um user espeficio e insere o acess token do google
+     *
+     * @param  int  $id
+     * @return Domain\User\User
+     */
+    public function saveTokenGoogle($id, $token = null)
+    {
+        $user = $this->users->findOrFail($id);
+        $user->tokenGoogle = $token;
+        
+        $user->save();
+
+        return $user;
+    }
+
+    /**
+     * Altera  ou adiciona um user
      *
      * @param  Request  $request
      * @param  int  $id
@@ -57,7 +73,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * Remove um evento especifico
+     * Remove um user especifico
      *
      * @param  int  $id
      * @return Domain\User\User

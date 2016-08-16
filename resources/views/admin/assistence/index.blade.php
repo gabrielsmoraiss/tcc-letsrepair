@@ -7,7 +7,7 @@
     <h1>Assistências</h1>
 
     <a href="{{ route('assistence.create') }}" class="btn btn-primary">
-    	Criar nova Assistência
+        Criar nova Assistência
     </a>
 
     <div class="table-responsive">
@@ -25,17 +25,23 @@
             </thead>
             <tbody>
                 @if(!empty($assistences))
+
                     @foreach($assistences as $assistencia)
                         <tr>
                             <td>{{ $assistencia['name'] }}</td>
-                            <td>{{ $assistencia['typeAssist'] }}</td>
+                            <td>{{ $assistencia['category'] }}</td>
                             <td>{{ $assistencia['Location'] }}</td>
                             <td>{{ $assistencia['typeProduct'] }}</td>
                             <td>{{ $assistencia['brandsAttended'] }}</td>
                             <td>
                                 <a href="{{-- route('admin.pessoas.show', $pessoa->id) --}}" title="Ver Assistência"
-                                	class="btn btn-sm btn-success">
-                                    <span class="glyphicon glyphicon-search"></span>
+                                	class="btn btn-xs btn-info">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <a data-href="{{ route('assistence.edit', $assistencia['name']) }}"
+                                    class="btn btn-success btn-xs" data-target="#edit-assistence-modal"
+                                    href="" data-modal-open="" title="Editar">
+                                    <i class="fa fa-pencil"></i>
                                 </a>
                                 {{--{!!  Form::open(['route' => ['admin.pessoas.destroy', $pessoa->id], 'method' => 'DELETE',
                                     'data-id' => $pessoa->id , 'class' => 'form-horizontal','style' => 'display: inline-block'])
@@ -74,6 +80,13 @@
                 <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Fechar</button>
             </div>
         </div>
+</div>
+
+<!-- Modal editar Assistencias -->
+<div class="modal fade" id="edit-assistence-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+
+    </div>
 </div>
 
 @stop

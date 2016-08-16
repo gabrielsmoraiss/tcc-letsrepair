@@ -15,8 +15,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 	//index
 	Route::get('/admin', ['as' => 'admin.index', 'uses' => 'AdminController@index']);
+	Route::get('/index-admin', ['as' => 'admin.index-admin', 'uses' => 'AdminController@indexAdmin']);
 	//Route::get('/assistence', ['as' => 'admin.assistence', 'uses' => 'App\AssistenceController@index']);
+	Route::get('auth-google/{auth?}', ['as' => 'auth-google', 'uses' => 'App\AssistenceController@getGoogleLogin']);
 	Route::resource('assistence', 'App\AssistenceController');
+	
+	Route::get('assistences/logout-google', ['as' => 'logout-google', 'uses' => 'App\AssistenceController@getGoogleLogout']);
 
 });
 

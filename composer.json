@@ -11,7 +11,8 @@
         "lord/laroute": "2.*",
         "doctrine/dbal": "^2.5",
         "rmccue/requests": "^1.6",
-        "google/apiclient": "^2.0"
+        "google/apiclient": "^2.0",
+        "hybridauth/hybridauth": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

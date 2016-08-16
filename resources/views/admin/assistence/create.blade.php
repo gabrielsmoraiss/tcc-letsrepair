@@ -15,11 +15,18 @@
                         'ESPECIALIZADA' => 'Especializada'
                     ], 'AUTORIZADA')
                 !!}
-                {!! Form::textField('Location', 'Endereço') !!}
-                {!! Form::textareaField('info', 'Informações gerais') !!}
+                {!! Form::textField('location', 'Endereço') !!}
                 <div class="row">
                     <div class="col-sm-6">
-                        {!! Form::selectField(
+                        {!! Form::textField('fone', 'Telefone') !!}
+                    </div>
+                    <div class="col-sm-6">
+                        {!! Form::textField('businessHours', 'Horario de Funcionamento') !!}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        {!! Form::selectMultipleField(
                             'typeProduct',
                             'Tipo do Produto',
                             ['CELULARES' => 'celulares',
@@ -30,7 +37,7 @@
                         !!}
                     </div>
                     <div class="col-sm-6">
-                        {!! Form::selectField('brandsAttended',
+                        {!! Form::selectMultipleField('brandsAttended',
                             'Marca do produto',
                             ['samsung' => 'Samsung',
                                 'lg' => 'lg',
@@ -40,10 +47,10 @@
                         !!}
                     </div>
                 </div>
+                {!! Form::textareaField('info', 'Informações gerais') !!}
 
-                {!! Form::submitBtn('Salvar') !!}
-
-                <a href="{{ route('assistence.index') }}" class="btn btn-danger">
+                <input type="submit" class="btn btn-success" value="Salvar"/>
+                <a href="{{ route('auth-google') }}" class="btn btn-danger">
                     Voltar
                 </a>
                 

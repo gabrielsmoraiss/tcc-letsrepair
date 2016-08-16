@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
-//use Domain\Evento\EventoRepositoryInterface;
-//use Domain\Evento\EventoRepository;
+use Domain\User\UserRepositoryInterface;
+use Domain\User\UserRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -28,9 +28,9 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /*$this->app->bind(
-            EventoRepositoryInterface::class,
-            EventoRepository::class
-        );*/
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            UserRepository::class
+        );
     }
 }

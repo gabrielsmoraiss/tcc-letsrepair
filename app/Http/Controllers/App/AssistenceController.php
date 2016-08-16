@@ -1,36 +1,51 @@
 <?php
 namespace App\Http\Controllers\App;
 
+use Auth;
 use Requests;
 use Google_Client;
+use Hybrid_Auth;
+use Hybrid_Endpoint;
 use Google_Service_Datastore;
 use Google_Service_Datastore_Query;
 use Google_Service_Datastore_RunQueryRequest;
 use Illuminate\Http\Request;
 use Domain\User\UserRequest;
-use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BaseController;
+use Domain\User\UserRepositoryInterface as User;
 
 class AssistenceController extends BaseController
 {
+    protected $users;
+
+    public function __construct(User $users)
+    {
+        $this->users = $users;
+        $this->loggedUser = Auth::user();
+        $this->tableAssistencesId = "1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS"; 
+        $this->tableAssistencesInfoId = "147rrTiq-rtQAKerNCIXV0V6rXQlrh3P-UHXu13vE"; 
+        $this->tableAssistencesMergeId = "1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ"; 
+    }
+
     /**
      * Mostra a tela inicial
      *
      * @return Response
      */ 
     public function index()
-    {   
-        $url = 'https://www.googleapis.com/fusiontables/v2/query?sql=SELECT * FROM 1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc';
+    {
+        $url = "https://www.googleapis.com/fusiontables/v2/query?sql=SELECT * FROM $this->tableAssistencesId&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
 
         $assistences = [];
         $headers = ['Accept' => 'application/json'];
 
-        $options = [    
-            'sql' => 'SELECT * FROM 1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ',
-            'key' => 'AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc'
-        ];
+        //$options = [    
+            //'sql' => "SELECT * FROM $this->tableAssistencesId",
+            //'key' => 'AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc'
+        //];
 
-        $response = Requests::get($url, $headers, $options);
+        $response = Requests::get($url, $headers);
 
         if($response->success) {
 
@@ -61,30 +76,35 @@ class AssistenceController extends BaseController
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $requestView)
-    {   
+    public function store(Request $request)
+    {  
+        $request->typeProduct = $request->typeProduct ? json_encode($request->typeProduct) : null;
+        $request->brandsAttended = $request->brandsAttended ? json_encode($request->brandsAttended) : null;
 
-        //$url = "https://www.googleapis.com/fusiontables/v2/query?key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc&sql=INSERT INTO 1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS (name) VALUES ('louco')";
+        if(is_null($this->loggedUser->tokenGoogle)) {
+            return 'pegar o token';
+        }
+        $token = 'Bearer ' . $this->loggedUser->tokenGoogle;
 
-        
         $url = "https://www.googleapis.com/fusiontables/v2/query";
-        $headers = ['Accept' => 'application/json'];
-        $arry['sql'] = "INSERT INTO 1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS (name,category) VALUES ('teste','loco')";
-        $arry['key'] = "AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => $token
+        ];
+
+        $optionsAssistence = "(name,category,Location,info,typeProduct,brandsAttended,fone,businessHours) VALUES ";
+        $optionsAssistence .= "('$request->name','$request->typeAssist','$request->location','$request->info','$request->typeProduct','$request->brandsAttended','$request->fone','$request->businessHours')";
+
+        $arry['sql'] = "INSERT INTO $this->tableAssistencesId $optionsAssistence;";
+ 
         $response = Requests::post($url, $headers, $arry);
+
         dd($response);
-        //$url = 'INSERT INTO <table_id> (<column_name> {, <column_name>}*) VALUES (<value> {, <value>}*)'
-
-        //tableAssistencias
-        //$url = 'https://www.googleapis.com/fusiontables/v2/query';
-
-        //$data = ['name' => 'teste'];
-    
-        
-
-        //$this->pessoas->save($request->all());
-
-        //return $this->routeRedirectWithFlash('admin.pessoas.index', '', "Pessoa {$request->nomeRazao} cadastrada com Sucesso!");
+        if($response->success) {
+            return $this->routeRedirectWithFlash('auth-google', '', "Assistência cadastrada com Sucesso!");
+        } 
+        return $this->backWithFlash("Ocorreu algum erro", 'danger');
     }
 
     /**
@@ -144,6 +164,47 @@ class AssistenceController extends BaseController
         $this->pessoas->destroy($id);
         return $this->routeRedirectWithFlash('admin.pessoas.index', '', "Cadastro Excluido com Sucesso!");
         */
+    }
+
+    /**
+     * Obtem login do google, permissão para acesar o fusion tables
+     * Armazena o token de acesso no usuário logado.
+     *
+     */
+    public function getGoogleLogin($auth = null)
+    { 
+        if ($auth == 'auth') {
+            try {
+                Hybrid_Endpoint::process();
+
+                return;
+            } catch (Exception $e) {
+                return 'deu pau';
+            }
+        } 
+        $oAuth = new Hybrid_Auth(config_path() . '/google_auth.php');
+        $provider = $oAuth->authenticate('Google');
+        //dd($provider);
+        $token = $provider->adapter->api->access_token;
+        $this->users->saveTokenGoogle(Auth::user()->id, $token);
+
+        //$profile = $provider->getUserProfile();
+        //$urlLogout = route('logout-google');
+        //return dump($profile, $provider) . '<a href="' . $urlLogout . '">Log Out</a>';
+
+        //Chama o index redirecionando para o index de assistencias
+        return $this->index();
+    }
+
+    /**
+     * Obtem login do google
+     *
+     */
+    public function getGoogleLogout()
+    {  
+        $gauth = new Hybrid_Auth(config_path() . '/google_auth.php');
+        $gauth->logoutAllProviders();
+        return 'deslogou!';
     }
 
 }
