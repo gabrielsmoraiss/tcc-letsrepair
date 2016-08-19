@@ -2,37 +2,34 @@
 
 namespace Domain\TypeProduct;
 
-use Hash;
-use Auth;
-
 class TypeProductRepository implements TypeProductRepositoryInterface
 {
-    protected $users;
+    protected $typeProducts;
 
-    public function __construct(TypeProduct $users)
+    public function __construct(TypeProduct $typeProducts)
     {
-        $this->users = $users;
+        $this->typeProducts = $typeProducts;
     }
 
     /**
      * Lista e retorna todos os eventos
      *
-     * @return Domain\User\User
+     * @return Domain\TypeProduct\TypeProduct
      */
     public function index()
     {
-        return $this->users->all();
+        return $this->typeProducts->all();
     }
 
     /**
      * Lista e retorna um evento espeficio
      *
      * @param  int  $id
-     * @return Domain\User\User
+     * @return Domain\TypeProduct\TypeProduct
      */
     public function show($id)
     {
-        return $this->users->findOrFail($id);
+        return $this->typeProducts->findOrFail($id);
     }
 
     /**
@@ -40,28 +37,29 @@ class TypeProductRepository implements TypeProductRepositoryInterface
      *
      * @param  Request  $request
      * @param  int  $id
-     * @return Domain\User\User
+     * @return Domain\TypeProduct\TypeProduct
      */
     public function save($request, $id = null)
     {
-        $user = $id ? $this->users->findOrFail($id) : new TypeProduct();
-        $user->type = $request->input('type', $user->type);
+        $typeProduct = $id ? $this->typeProducts->findOrFail($id) : new TypeProduct();
 
-        $user->save();
+        $typeProduct->description = $request->input('description', $typeProduct->description);
 
-        return $user;
+        $typeProduct->save();
+
+        return $typeProduct;
     }
 
     /**
      * Remove um evento especifico
      *
      * @param  int  $id
-     * @return Domain\User\User
+     * @return Domain\TypeProduct\TypeProduct
      */
     public function destroy($id)
     {
-        $user = $this->users->findOrFail($id);
+        $typeProduct = $this->typeProducts->findOrFail($id);
 
-        return $user->delete();
+        return $typeProduct->delete();
     }
 }

@@ -1,22 +1,22 @@
 <?php
 
-namespace Domain\TypeProduct;
+namespace Domain\BrandsAttended;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laracasts\Presenter\PresentableTrait;
 
-class TypeProduct extends Model
+class BrandsAttended extends Model
 {
     use PresentableTrait;
 
     /**
      * Presenter
      */
-    protected $presenter = TypeProductPresenter::class;
+    protected $presenter = BrandsAttendedPresenter::class;
     
-    protected $table = 'typeProducts';
+    protected $table = 'brandsAttendeds';
 
     protected $guarded = [];
 

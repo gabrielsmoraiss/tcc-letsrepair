@@ -6,6 +6,10 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Domain\User\UserRepositoryInterface;
 use Domain\User\UserRepository;
+use Domain\TypeProduct\TypeProductRepositoryInterface;
+use Domain\TypeProduct\TypeProductRepository;
+use Domain\BrandsAttended\BrandsAttendedRepositoryInterface;
+use Domain\BrandsAttended\BrandsAttendedRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -31,6 +35,14 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             UserRepositoryInterface::class,
             UserRepository::class
+        );
+        $this->app->bind(
+            TypeProductRepositoryInterface::class,
+            TypeProductRepository::class
+        );
+        $this->app->bind(
+            BrandsAttendedRepositoryInterface::class,
+            BrandsAttendedRepository::class
         );
     }
 }

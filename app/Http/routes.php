@@ -22,6 +22,9 @@ Route::group(['middleware' => 'auth'], function () {
 	
 	Route::get('assistences/logout-google', ['as' => 'logout-google', 'uses' => 'App\AssistenceController@getGoogleLogout']);
 
+	Route::resource('type-product', 'App\TypeProductController');
+	Route::resource('brands-attended', 'App\BrandsAttendedController');
+
 });
 
 Route::get('/', ['as' => 'index', 'uses' => 'Auth\AuthController@index']);
