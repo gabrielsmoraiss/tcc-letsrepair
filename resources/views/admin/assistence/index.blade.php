@@ -9,17 +9,16 @@
     <a href="{{ route('assistence.create') }}" class="btn btn-primary">
         Criar nova Assistência
     </a>
-
-    <div class="table-responsive">
-
-        <table id ="table-pessoas" class="display table table-condensed">
+    <br/>
+    <br/>
+    <div class="table-responsive col-sm-12">
+        <table id ="table-pessoas" class="display table data-table table-condensed">
             <thead>
                 <tr>
                     <th>Nome</th>
                     <th>Tipo</th>
                     <th>Localização</th>
-                    <th>Tipo de Produto</th>
-                    <th>Marcas Atendidas</th>
+                    <th>Hora de Funcionamento</th>
                     <th>Gerenciar</th>
                 </tr>
             </thead>
@@ -31,26 +30,26 @@
                             <td>{{ $assistencia['name'] }}</td>
                             <td>{{ $assistencia['category'] }}</td>
                             <td>{{ $assistencia['Location'] }}</td>
-                            <td>{{ $assistencia['typeProduct'] }}</td>
-                            <td>{{ $assistencia['brandsAttended'] }}</td>
+                            <td>{{ $assistencia['businessHours'] }}</td>
                             <td>
-                                <a href="{{-- route('admin.pessoas.show', $pessoa->id) --}}" title="Ver Assistência"
+                                <a href="{{-- route('admin.pessoas.show', $assistencia['rowid']) --}}" title="Ver Assistência"
                                 	class="btn btn-xs btn-info">
                                     <i class="fa fa-search"></i>
                                 </a>
-                                <a data-href="{{ route('assistence.edit', $assistencia['name']) }}"
+                                <a data-href="{{ route('assistence.edit', $assistencia['rowid']) }}"
                                     class="btn btn-success btn-xs" data-target="#edit-assistence-modal"
                                     href="" data-modal-open="" title="Editar">
                                     <i class="fa fa-pencil"></i>
                                 </a>
-                                {{--{!!  Form::open(['route' => ['admin.pessoas.destroy', $pessoa->id], 'method' => 'DELETE',
-                                    'data-id' => $pessoa->id , 'class' => 'form-horizontal','style' => 'display: inline-block'])
+                                {!!  Form::open(['route' => ['assistence.destroy', $assistencia['rowid']], 'method' => 'DELETE',
+                                    'data-id' => $assistencia['rowid'] , 'class' => 'form-horizontal','style' => 'display: inline-block'])
                                 !!}
-	                                <button data-id="{{ $pessoa->id }}" type="submit" class="btn btn-sm btn-danger">
-	                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Deletar
+	                                <button data-id="{{ $assistencia['rowid'] }}"
+                                        type="submit" class="btn btn-xs btn-danger" title="Excluir"
+                                    >
+	                                    <i class="fa fa-remove"></i>
 	                                </button>
                                 {!! Form::close() !!}
-                               --}}
                             </td>
                         </tr>
                     @endforeach
@@ -61,7 +60,7 @@
 </div>
 <br/>
 
-<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -80,12 +79,13 @@
                 <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Fechar</button>
             </div>
         </div>
+    </div>
 </div>
 
 <!-- Modal editar Assistencias -->
 <div class="modal fade" id="edit-assistence-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-md" role="document">
-
+        
     </div>
 </div>
 

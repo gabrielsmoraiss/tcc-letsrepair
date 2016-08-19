@@ -89,6 +89,7 @@ $(document).on("click", "button[data-id]", function(e) {
 $(document).on("click", "a[data-modal-open]", function(e) {
   var target = e.target;
   var button = target.tagName.toLowerCase() == 'a' ? $(target) : $(target).closest('a');
+
   e.preventDefault();
   e.stopPropagation();
 

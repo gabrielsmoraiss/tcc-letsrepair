@@ -18,7 +18,7 @@
                 {!! Form::textField('location', 'Endereço') !!}
                 <div class="row">
                     <div class="col-sm-6">
-                        {!! Form::textField('fone', 'Telefone') !!}
+                        {!! Form::numberField('fone', 'Telefone') !!}
                     </div>
                     <div class="col-sm-6">
                         {!! Form::textField('businessHours', 'Horario de Funcionamento') !!}
