@@ -24,7 +24,7 @@ class BrandsAttendedRequest extends Request
     public function rules()
     {
         return [
-          
+            'description' => 'sometimes|required',
         ];
     }
 
@@ -36,7 +36,7 @@ class BrandsAttendedRequest extends Request
     public function messages()
     {
         return [
-            
+             'description.required' => 'Por favor, insira uma descrição.',   
         ];
     }
 }

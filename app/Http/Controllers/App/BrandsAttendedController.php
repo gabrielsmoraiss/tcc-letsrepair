@@ -21,11 +21,11 @@ class BrandsAttendedController extends BaseController
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $brandsAttendeds = $this->brandsAttendeds->index();
 
-        return view('brands-attended.index', compact('brandsAttendeds'));
+        return view('admin.brands-attendeds.index', compact('brandsAttendeds'));
     }
 
     /**
@@ -35,7 +35,7 @@ class BrandsAttendedController extends BaseController
      */
     public function create()
     {
-        return view('brands-attended.create');
+        return view('admin.brands-attendeds.create');
     }
 
     /**
@@ -48,11 +48,7 @@ class BrandsAttendedController extends BaseController
     {
         $brandsAttended = $this->brandsAttendeds->save($request);
 
-        /*if($request->back) {
-            $request->flush();
-            return $this->backWithFlash("brandsProduct cadastrada com Sucesso!");
-        }*/
-        return $this->routeRedirectWithFlash('brandsAttendeds.index', '', "Tipo de produto foi cadastrado com Sucesso!");
+        return $this->backWithFlash("Tipo de produto foi cadastrado com Sucesso!");
     }
 
     /**
@@ -65,7 +61,7 @@ class BrandsAttendedController extends BaseController
     {
         $brandsAttended = $this->brandsAttendeds->show($id);
 
-        return view('brands-attended.show', compact('brandsAttended'));
+        return view('admin.brands-attendeds.show', compact('brandsAttended'));
     }
 
     /**
@@ -78,7 +74,7 @@ class BrandsAttendedController extends BaseController
     {
         $brandsAttended = $this->brandsAttendeds->show($id);
 
-        return view('brands-attended.edit', compact('brandsAttended'));
+        return view('admin.brands-attendeds.edit', compact('brandsAttended'));
     }
 
     /**
@@ -92,7 +88,7 @@ class BrandsAttendedController extends BaseController
     {
         $this->brandsAttendeds->save($request, $id);
 
-        return $this->routeRedirectWithFlash('brandsAttendeds.show', $id, "O tipo de produto foi alterada com Sucesso!");
+        return $this->backWithFlash("O tipo de produto foi alterada com Sucesso!");
     }
 
     /**
@@ -105,7 +101,7 @@ class BrandsAttendedController extends BaseController
     {
         $this->brandsAttendeds->destroy($id);
 
-        return $this->routeRedirectWithFlash('brandsAttendeds.index', '', "Cadastro Excluido com Sucesso!");
+        return $this->backWithFlash("Cadastro Excluido com Sucesso!", 'danger');
     }
 }
 

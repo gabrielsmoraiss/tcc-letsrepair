@@ -28,7 +28,7 @@
                     <div class="col-sm-6">
                         {!! Form::selectMultipleField(
                             'typeProduct',
-                            'Tipo do Produto',
+                            'Tipos de produtos',
                             ['CELULARES' => 'celulares',
                                     'ELETRONICOS' => 'Eletrônicos',
                                     'GPS' => 'GPS',
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-sm-6">
                         {!! Form::selectMultipleField('brandsAttended',
-                            'Marca do produto',
+                            'Produtos atendidos',
                             ['samsung' => 'Samsung',
                                 'lg' => 'lg',
                                 'sony' => 'sony',

@@ -17,12 +17,20 @@
                             Assistências
                         </a>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Cadastros <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('type-product.index') }}" >Tipos de Produto</a></li>
+                            <li><a href="{{ route('brands-attended.index') }}" >Marcas Atendidas</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#"></a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">{{ words($current_user->name, 2,'') }}<span class="caret"></span></a>
+                           aria-expanded="false">{{ words($current_user->name, 2,'') }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('auth.logout') }}" >Sair</a></li>
                         </ul>

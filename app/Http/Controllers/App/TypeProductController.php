@@ -21,11 +21,11 @@ class TypeProductController extends BaseController
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $typeProducts = $this->typeProducts->index();
 
-        return view('type-products.index', compact('typeProducts'));
+        return view('admin.type-products.index', compact('typeProducts'));
     }
 
     /**
@@ -35,7 +35,7 @@ class TypeProductController extends BaseController
      */
     public function create()
     {
-        return view('type-products.create');
+        return view('admin.type-products.create');
     }
 
     /**
@@ -48,11 +48,7 @@ class TypeProductController extends BaseController
     {
         $typeProduct = $this->typeProducts->save($request);
 
-        /*if($request->back) {
-            $request->flush();
-            return $this->backWithFlash("TypeProduct cadastrada com Sucesso!");
-        }*/
-        return $this->routeRedirectWithFlash('typeProducts.index', '', "Tipo de produto foi cadastrado com Sucesso!");
+        return $this->backWithFlash("Tipo de produto foi cadastrado com Sucesso!");
     }
 
     /**
@@ -65,7 +61,7 @@ class TypeProductController extends BaseController
     {
         $typeProduct = $this->typeProducts->show($id);
 
-        return view('type-products.show', compact('typeProduct'));
+        return view('admin.type-products.show', compact('typeProduct'));
     }
 
     /**
@@ -78,7 +74,7 @@ class TypeProductController extends BaseController
     {
         $typeProduct = $this->typeProducts->show($id);
 
-        return view('type-products.edit', compact('typeProduct'));
+        return view('admin.type-products.edit', compact('typeProduct'));
     }
 
     /**
@@ -92,7 +88,7 @@ class TypeProductController extends BaseController
     {
         $this->typeProducts->save($request, $id);
 
-        return $this->routeRedirectWithFlash('typeProducts.show', $id, "O tipo de produto foi alterada com Sucesso!");
+        return $this->backWithFlash("O tipo de produto foi alterada com Sucesso!");
     }
 
     /**
@@ -105,7 +101,7 @@ class TypeProductController extends BaseController
     {
         $this->typeProducts->destroy($id);
 
-        return $this->routeRedirectWithFlash('typeProducts.index', '', "Cadastro Excluido com Sucesso!");
+        return $this->backWithFlash("Cadastro Excluido com Sucesso!", 'danger');
     }
 }
 

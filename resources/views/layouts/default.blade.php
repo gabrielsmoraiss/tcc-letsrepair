@@ -14,16 +14,17 @@
 
 
 <body>
-{{--dd(!Request::is('index'))--}}
-@if($current_user)
-    @include('layouts.navbar')
-@else
-    @include('layouts.navbarApp')
-@endif
+    {!! Html::flash() !!}
+    {{--dd(!Request::is('index'))--}}
+    @if($current_user)
+        @include('layouts.navbar')
+    @else
+        @include('layouts.navbarApp')
+    @endif
 
-@yield('content')
+    @yield('content')
 
-@include('layouts.js')
+    @include('layouts.js')
 </body>
 
 </html>
