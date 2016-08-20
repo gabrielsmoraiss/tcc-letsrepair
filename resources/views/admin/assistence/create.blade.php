@@ -25,28 +25,27 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         {!! Form::selectMultipleField(
                             'typeProduct',
                             'Tipos de produtos',
-                            ['CELULARES' => 'celulares',
-                                    'ELETRONICOS' => 'Eletrônicos',
-                                    'GPS' => 'GPS',
-                                    'NOTEBOOK' => 'notebook'
-                            ])
+                            $typeProducts)
                         !!}
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         {!! Form::selectMultipleField('brandsAttended',
-                            'Produtos atendidos',
-                            ['samsung' => 'Samsung',
-                                'lg' => 'lg',
-                                'sony' => 'sony',
-                                'dell' => 'dell' 
-                            ])
+                            'Marcas Atendidas (Garantia)',
+                            $brandsAttendeds)
+                        !!}
+                    </div>
+                    <div class="col-sm-4">
+                        {!! Form::selectMultipleField('brandsAttended',
+                            'Marcas Atendidas (Fora de garantia)',
+                            $brandsAttendeds)
                         !!}
                     </div>
                 </div>
+                <p>Segure a tecla Ctrl para selecionar mais de um item.</p>
                 {!! Form::textareaField('info', 'Informações gerais') !!}
 
                 <input type="submit" class="btn btn-success" value="Salvar"/>

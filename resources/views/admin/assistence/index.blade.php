@@ -84,7 +84,7 @@
 
 <!-- Modal editar Assistencias -->
 <div class="modal fade" id="edit-assistence-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         
     </div>
 </div>

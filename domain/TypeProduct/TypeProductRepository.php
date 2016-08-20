@@ -22,6 +22,17 @@ class TypeProductRepository implements TypeProductRepositoryInterface
     }
 
     /**
+     * Lista e retorna todos os midias contendo nome e id em forma de array
+     *
+     * @return Domain\TypeProduct\TypeProduct
+     */
+    public function listForSelect()
+    {
+        $typeProducts = $this->typeProducts->all();
+        return $typeProducts->pluck('description', 'id');
+    }
+
+    /**
      * Lista e retorna um evento espeficio
      *
      * @param  int  $id

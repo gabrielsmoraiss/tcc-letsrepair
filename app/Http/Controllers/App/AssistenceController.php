@@ -10,15 +10,21 @@ use Illuminate\Http\Request;
 use Domain\User\UserRequest;
 use App\Http\Controllers\BaseController;
 use Domain\User\UserRepositoryInterface as User;
+use Domain\TypeProduct\TypeProductRepositoryInterface as TypeProduct;
+use Domain\BrandsAttended\BrandsAttendedRepositoryInterface as BrandsAttended;
 
 class AssistenceController extends BaseController
 {
     protected $users;
+    protected $typeProducts;
+    protected $brandsAttendeds;
 
-    public function __construct(User $users)
+    public function __construct(User $users, TypeProduct $typeProducts, BrandsAttended $brandsAttendeds)
     {
         $this->users = $users;
         $this->loggedUser = Auth::user();
+        $this->typeProducts = $typeProducts;
+        $this->brandsAttendeds = $brandsAttendeds;
         $this->tableAssistencesId = "1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS"; 
         $this->tableAssistencesInfoId = "147rrTiq-rtQAKerNCIXV0V6rXQlrh3P-UHXu13vE"; 
         $this->tableAssistencesMergeId = "1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ"; 
@@ -32,7 +38,8 @@ class AssistenceController extends BaseController
     public function index()
     {
         $url = "https://www.googleapis.com/fusiontables/v2/query?";
-        $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended,businessHours FROM $this->tableAssistencesId&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
+        $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, brandsAttendedWarranty, businessHours ";
+        $url .= "FROM $this->tableAssistencesId&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
 
 
         $assistences = [];
@@ -53,7 +60,6 @@ class AssistenceController extends BaseController
 
                 $assistences[] = collect(array_combine($assistenciasJson->columns, $assistenciaJson));
             }
-            //dd($assistences);
         }
 
         return view('admin.assistence.index', compact('assistences'));
@@ -66,7 +72,10 @@ class AssistenceController extends BaseController
      */
     public function create()
     {
-        return view('admin.assistence.create');
+        $typeProducts = $this->typeProducts->listForSelect();
+        $brandsAttendeds = $this->brandsAttendeds->listForSelect();
+
+        return view('admin.assistence.create', compact('typeProducts', 'brandsAttendeds'));
     }
 
     /**
@@ -79,6 +88,7 @@ class AssistenceController extends BaseController
     {  
         $request->typeProduct = $request->typeProduct ? json_encode($request->typeProduct) : null;
         $request->brandsAttended = $request->brandsAttended ? json_encode($request->brandsAttended) : null;
+        $request->brandsAttendedWarranty = $request->brandsAttendedWarranty ? json_encode($request->brandsAttendedWarranty) : null;
 
         if(is_null($this->loggedUser->tokenGoogle)) {
             return 'pegar o token';
@@ -92,8 +102,8 @@ class AssistenceController extends BaseController
             'Authorization' => $token
         ];
 
-        $optionsAssistence = "(name,category,Location,info,typeProduct,brandsAttended,fone,businessHours) VALUES ";
-        $optionsAssistence .= "('$request->name','$request->typeAssist','$request->location','$request->info','$request->typeProduct','$request->brandsAttended','$request->fone','$request->businessHours')";
+        $optionsAssistence = "(name,category,Location,info,typeProduct,brandsAttended,brandsAttendedWarranty,fone,businessHours) VALUES ";
+        $optionsAssistence .= "('$request->name','$request->typeAssist','$request->location','$request->info','$request->typeProduct','$request->brandsAttended', '$request->brandsAttendedWarranty', '$request->fone','$request->businessHours')";
 
         $arry['sql'] = "INSERT INTO $this->tableAssistencesId $optionsAssistence;";
  
@@ -129,7 +139,7 @@ class AssistenceController extends BaseController
     public function edit($id)
     {
         $url = "https://www.googleapis.com/fusiontables/v2/query?";
-        $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, fone, info, businessHours FROM $this->tableAssistencesId WHERE rowid=$id&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
+        $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, brandsAttendedWarranty, fone, info, businessHours FROM $this->tableAssistencesId WHERE rowid=$id&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
 
 
         $assistences = [];
@@ -154,7 +164,11 @@ class AssistenceController extends BaseController
         } else {
             dd('Erro:', $response);
         }
-        return view('admin.assistence.edit', compact('assistencia'));
+
+        $typeProducts = $this->typeProducts->listForSelect();
+        $brandsAttendeds = $this->brandsAttendeds->listForSelect();
+
+        return view('admin.assistence.edit', compact('assistencia', 'typeProducts', 'brandsAttendeds'));
     }
 
     /**
@@ -168,6 +182,7 @@ class AssistenceController extends BaseController
     {
         $request->typeProduct = $request->typeProduct ? json_encode($request->typeProduct) : null;
         $request->brandsAttended = $request->brandsAttended ? json_encode($request->brandsAttended) : null;
+        $request->brandsAttendedWarranty = $request->brandsAttendedWarranty ? json_encode($request->brandsAttendedWarranty) : null;
 
         if(is_null($this->loggedUser->tokenGoogle)) {
             return 'pegar o token';
@@ -187,6 +202,7 @@ class AssistenceController extends BaseController
             info = '$request->info',
             typeProduct = '$request->typeProduct',
             brandsAttended = '$request->brandsAttended',
+            brandsAttendedWarranty = '$request->brandsAttendedWarranty',
             fone = '$request->fone',
             businessHours = '$request->businessHours'
         ";
@@ -197,6 +213,11 @@ class AssistenceController extends BaseController
         if($response->success) {
             return $this->routeRedirectWithFlash('auth-google', '', "Assistência atualizada com Sucesso!");
         } else {
+            if($response->status_code == 401) {
+                return $this->getGoogleLogout();
+                //$urlLogout = route('logout-google');
+                //return dump($provider) . '<a href="' . $urlLogout . '">Log Out</a>';
+            }
             dd('Erro:', $response);
         }
         return $this->backWithFlash("Ocorreu algum erro", 'danger');
@@ -275,7 +296,8 @@ class AssistenceController extends BaseController
         $gauth = new Hybrid_Auth(config_path() . '/google_auth.php');
         $gauth->logoutAllProviders();
 
-        return $this->backWithFlash("O token expirou por favor tente novamente", 'danger');
+        return $this->getGoogleLogin(null);
+        //return $this->backWithFlash("O token expirou por favor tente novamente", 'danger');
     }
 
 }

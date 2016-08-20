@@ -25,29 +25,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         {!! Form::selectMultipleField(
                             'typeProduct',
                             'Tipos de produtos',
-                            [
-                                'CELULARES' => 'celulares',
-                                'ELETRONICOS' => 'Eletrônicos',
-                                'GPS' => 'GPS',
-                                'NOTEBOOK' => 'notebook'
-                            ], [], json_decode($assistencia['typeProduct']))
+                            $typeProducts, [], json_decode($assistencia['typeProduct']))
                         !!}
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
+                        {!! Form::selectMultipleField('brandsAttendedWarranty',
+                            'Marcas Atendidas (Garantia)',
+                            $brandsAttendeds, [], json_decode($assistencia['brandsAttendedWarranty']))
+                        !!}
+                    </div>
+                    <div class="col-sm-4">
                         {!! Form::selectMultipleField('brandsAttended',
-                            'Produtos Atendidos',
-                            ['samsung' => 'Samsung',
-                                'lg' => 'lg',
-                                'sony' => 'sony',
-                                'dell' => 'dell' 
-                            ], [], json_decode($assistencia['brandsAttended']))
+                            'Marcas Atendidas (Fora de garantia)',
+                            $brandsAttendeds, [], json_decode($assistencia['brandsAttended']))
                         !!}
                     </div>
                 </div>
+                <p>Segure a tecla Ctrl para selecionar mais de um item.</p>
+
                 {!! Form::textareaField('info', 'Informações gerais', $assistencia['info']) !!}
             </div>
             <div class="modal-footer">

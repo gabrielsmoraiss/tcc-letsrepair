@@ -22,6 +22,17 @@ class BrandsAttendedRepository implements BrandsAttendedRepositoryInterface
     }
 
     /**
+     * Lista e retorna todos as marcas contendo nome e id em forma de array
+     *
+     * @return Domain\BrandsAttended\BrandsAttended
+     */
+    public function listForSelect()
+    {
+        $brandsAttendeds = $this->brandsAttendeds->all();
+        return $brandsAttendeds->pluck('description', 'id');
+    }
+
+    /**
      * Lista e retorna um produto espeficio
      *
      * @param  int  $id
