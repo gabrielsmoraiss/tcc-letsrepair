@@ -7,7 +7,7 @@
     <h1>Assistências</h1>
 
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-10">
             {!! Form::open(['route' => 'assistence.store']) !!}
                 {!! Form::textField('name', 'Nome da Assistência') !!}
                 {!! Form::radioInline('typeAssist', 'Tipo', [

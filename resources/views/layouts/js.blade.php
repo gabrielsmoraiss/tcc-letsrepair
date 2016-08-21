@@ -24,7 +24,7 @@ function initMap() {
   //console.log(JSON.stringify(latlng));
   map = new google.maps.Map(document.getElementById('map'), {
     center: latlng,
-    zoom: 8
+    zoom: 9
   });
 
   infowindow = new google.maps.InfoWindow();
@@ -139,6 +139,8 @@ function clearMap() {
   function tagMe(myLocation) {
 
     map.setCenter(myLocation);
+    map.setZoom(11);
+    //fazer if para descobrir melhor zoom dependendo da area de cobertura
 
     var image = 'https://cdn4.iconfinder.com/data/icons/map1/502/Untitled-11-48.png';
     markerMyLocation = new google.maps.Marker({
