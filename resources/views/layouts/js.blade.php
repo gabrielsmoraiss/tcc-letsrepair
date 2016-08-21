@@ -16,7 +16,7 @@ var circle;
 var layer;
 var markerMyLocation;
 var tipoLocal = 'Autorizada';
-var tableId = '1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ';
+var tableId = '1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS';
 
 
 function initMap() {
@@ -102,7 +102,7 @@ $form.submit(function(e) {
 
   var address = $('#address').val();
 	var radius = $('#radius').val();
-	var typeAssist = $('#typeAssist').val();
+	var category = $('#category').val();
 	var typeProduct = $('#typeProduct').val();
 	var brandsAttended = $('#brandsAttended').val();
 	  
@@ -113,7 +113,7 @@ $form.submit(function(e) {
 
 	  	clearMap();
 	  	//pesquisa os locais em volta..
-	   	markPlacesFromTables(pos, typeAssist, typeProduct, brandsAttended, parseInt(radius));
+	   	markPlacesFromTables(pos, category, typeProduct, brandsAttended, parseInt(radius));
 
 	  } else {
 	    console.log("Geocode was not successful for the following reason: " + status);
@@ -157,15 +157,16 @@ function clearMap() {
 
   function markPlacesFromTables(
   		myLocation,
-  		typeAssist = null,
+  		category = null,
   		typeProduct = null,
 			brandsAttended = null,
 			radius = 50000
 		)
   {
-  	var searchTypeAssist = typeAssist ? 'typeAssist like \'' + typeAssist + '\' and ' : '';
-  	var searchTypeProduct = typeProduct ? 'typeProduct like \'' + typeProduct + '\' and ' : '';
-  	var searchBrandsAttended = brandsAttended ? 'brandsAttended like \'' + brandsAttended + '\' and ' : '';
+  	var searchCategory = category ? 'category like \'' + category + '\' and ' : '';
+  	var searchTypeProduct = typeProduct ? 'typeProduct like \'%' + typeProduct + '%\' and ' : '';
+  	var searchBrandsAttended = brandsAttended ? 'brandsAttended like \'%' + brandsAttended + '%\' and ' : '';
+  	console.log(searchCategory, searchTypeProduct, searchBrandsAttended);
 
   	//Cria o circulo azul mostrando a abrangencia da pesquisa
   	circle = new google.maps.Circle({
@@ -185,7 +186,7 @@ function clearMap() {
 	      select: '\'Location\'',
 	      from: tableId,
 	      where:
-	      	searchTypeAssist +
+	      	searchCategory +
 	      	searchTypeProduct +
 	      	searchBrandsAttended +
 	      	' ST_INTERSECTS(Location, CIRCLE(LATLNG('+
@@ -193,16 +194,16 @@ function clearMap() {
 	      	'))'	      	
 	    },
 	    styles: [{
-		      where: 'typeAssist like \'AUTORIZADA\'',
+		      where: 'category like \'AUTORIZADA\'',
 		      markerOptions: {
 				    iconName: "ylw_stars",
-				    zIndex:99
+				    zIndex:100
 				  }
 		    }, {
-		      where: 'typeAssist like \'ESPECIALIZADA\'',
+		      where: 'category like \'ESPECIALIZADA\'',
 		      markerOptions: {
 				    iconName: "wht_blank",
-				    zIndex:100
+				    zIndex:99
 				  }
 		    }
 			],
@@ -226,7 +227,7 @@ function clearMap() {
 
       // Change the content of the InfoWindow
       e.infoWindowHtml = e.row['name'].value + "<br>";
-      e.infoWindowHtml += "Vai parmera!";
+      e.infoWindowHtml += "Vai Parmera!";
 
      /*
       e.infoWindowHtml = e.row['Store Name'].value + "<br>";

@@ -26,7 +26,7 @@
 						['placeholder' => 'Digite o local de onde buscar'])
 					!!}
 
-					{!! Form::selectField('typeAssist',
+					{!! Form::selectField('category',
 						'Selecione o tipo da Assistência',
 						['AUTORIZADA' => 'Autorizada',
 							'ESPECIALIZADA' => 'Especializada
@@ -36,21 +36,13 @@
 
 					{!! Form::selectField('typeProduct',
 						'Selecione o tipo do produto',
-						['CELULARES' => 'celulares',
-							'ELETRONICOS' => 'Eletrônicos',
-							'GPS' => 'GPS',
-							'NOTEBOOK' => 'notebook'
-						],
+						$typeProducts,
 						['placeholder' => 'Buscar todos'])
 					!!}
 
 					{!! Form::selectField('brandsAttended',
 						'Selecione a marca do produto',
-						['samsung' => 'Samsung',
-							'lg' => 'lg',
-							'sony' => 'sony',
-							'dell' => 'dell'
-						],
+						$brandsAttendeds,
 						['placeholder' => 'Buscar todas as marcas'])
 					!!}
 
@@ -62,9 +54,7 @@
 
 					<button type="submit"
 	                    class="btn btn-success"> Filtrar
-	                </button>
-	                <a href="https://www.googleapis.com/fusiontables/v2/query?sql=SELECT * FROM 1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ&key=AIzaSyB3eIgwMkqQtZuM7iVJi2is6EoktemIZ8E">Link panois
-	                </a>                
+	                </button>              
                 </form>
 			</div>
 			<br>

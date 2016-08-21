@@ -9,6 +9,8 @@ use Domain\User\UserRequest;
 use App\Http\Controllers\BaseController;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Domain\TypeProduct\TypeProductRepositoryInterface as TypeProduct;
+use Domain\BrandsAttended\BrandsAttendedRepositoryInterface as BrandsAttended;
 
 class AuthController extends BaseController
 {
@@ -31,17 +33,20 @@ class AuthController extends BaseController
      * @var string
      */
     protected $redirectTo = '/';
+    protected $typeProducts;
+    protected $brandsAttendeds;
 
     /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TypeProduct $typeProducts, BrandsAttended $brandsAttendeds)
     {
+        $this->typeProducts = $typeProducts;
+        $this->brandsAttendeds = $brandsAttendeds;
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
-
     /**
      * Get a validator for an incoming registration request.
      *
@@ -64,7 +69,10 @@ class AuthController extends BaseController
      */
     public function index()
     {
-        return view('index');
+        $typeProducts = $this->typeProducts->listForSelect();
+        $brandsAttendeds = $this->brandsAttendeds->listForSelect();
+
+        return view('index', compact('typeProducts', 'brandsAttendeds'));
     }
 
      /**

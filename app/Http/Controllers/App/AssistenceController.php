@@ -25,9 +25,7 @@ class AssistenceController extends BaseController
         $this->loggedUser = Auth::user();
         $this->typeProducts = $typeProducts;
         $this->brandsAttendeds = $brandsAttendeds;
-        $this->tableAssistencesId = "1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS"; 
-        $this->tableAssistencesInfoId = "147rrTiq-rtQAKerNCIXV0V6rXQlrh3P-UHXu13vE"; 
-        $this->tableAssistencesMergeId = "1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ"; 
+        $this->tableAssistencesId = "1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS";
     }
 
     /**
