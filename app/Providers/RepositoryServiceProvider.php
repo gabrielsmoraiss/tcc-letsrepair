@@ -10,6 +10,8 @@ use Domain\TypeProduct\TypeProductRepositoryInterface;
 use Domain\TypeProduct\TypeProductRepository;
 use Domain\BrandsAttended\BrandsAttendedRepositoryInterface;
 use Domain\BrandsAttended\BrandsAttendedRepository;
+use Domain\AssistenceRequest\AssistenceRequestRepositoryInterface;
+use Domain\AssistenceRequest\AssistenceRequestRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -43,6 +45,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             BrandsAttendedRepositoryInterface::class,
             BrandsAttendedRepository::class
+        );
+        $this->app->bind(
+            AssistenceRequestRepositoryInterface::class,
+            AssistenceRequestRepository::class
         );
     }
 }

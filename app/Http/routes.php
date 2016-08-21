@@ -16,7 +16,6 @@ Route::group(['middleware' => 'auth'], function () {
 	//index
 	Route::get('/admin', ['as' => 'admin.index', 'uses' => 'AdminController@index']);
 	Route::get('/index-admin', ['as' => 'admin.index-admin', 'uses' => 'AdminController@indexAdmin']);
-	//Route::get('/assistence', ['as' => 'admin.assistence', 'uses' => 'App\AssistenceController@index']);
 	Route::get('auth-google/{auth?}', ['as' => 'auth-google', 'uses' => 'App\AssistenceController@getGoogleLogin']);
 	Route::resource('assistence', 'App\AssistenceController');
 	
@@ -24,8 +23,13 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::resource('type-product', 'App\TypeProductController');
 	Route::resource('brands-attended', 'App\BrandsAttendedController');
+	//Rotas para Assistencia request
+	Route::resource('assistence-request', 'Admin\AssistenceRequestController', ['except' => ['create', 'store']]);
 
 });
+
+Route::get('/assistence-solicitation', ['as' => 'assistence-solicitation.create', 'uses' => 'App\AssistenceRequestController@create']);
+Route::post('/assistence-solicitation', ['as' => 'assistence-solicitation.store', 'uses' => 'App\AssistenceRequestController@store']);
 
 Route::get('/', ['as' => 'index', 'uses' => 'Auth\AuthController@index']);
 

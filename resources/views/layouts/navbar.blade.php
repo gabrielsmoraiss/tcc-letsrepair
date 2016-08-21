@@ -17,6 +17,11 @@
                             Assistências
                         </a>
                     </li>
+                    <li class="{{ active('admin/assistence-requests*') }}">
+                        <a href="{{ route('assistence-request.index') }}" >
+                            Aprovar assistências
+                        </a>
+                    </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Cadastros <span class="caret"></span></a>

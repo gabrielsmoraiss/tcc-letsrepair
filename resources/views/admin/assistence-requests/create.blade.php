@@ -4,23 +4,25 @@
 
 <div class="container">
 
-    <h1>Assistências</h1>
+    <h1>Cadastrar Assistência</h1>
 
     <div class="row">
-        <div class="col-sm-8">
-            {!! Form::open(['route' => 'assistence.store']) !!}
+        <div class="col-sm-10">
+            {!! Form::open(['route' => 'assistence-solicitation.store']) !!}
                 {!! Form::textField('name', 'Nome da Assistência') !!}
-                {!! Form::radioInline('typeAssist', 'Tipo', [
-                        'AUTORIZADA' => 'Autorizada',
-                        'ESPECIALIZADA' => 'Especializada'
-                    ], 'AUTORIZADA')
-                !!}
                 {!! Form::textField('location', 'Endereço') !!}
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
+                        {!! Form::radioInline('category', 'Tipo', [
+                                'AUTORIZADA' => 'Autorizada',
+                                'ESPECIALIZADA' => 'Especializada'
+                            ], 'AUTORIZADA')
+                        !!}
+                    </div>
+                    <div class="col-sm-4">
                         {!! Form::numberField('fone', 'Telefone') !!}
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         {!! Form::textField('businessHours', 'Horario de Funcionamento') !!}
                     </div>
                 </div>

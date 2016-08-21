@@ -17,6 +17,11 @@
                             Pesquisar Assistências
                         </a>
                     </li>
+                    <li class="{{ active('admin/assistence-requests*') }}">
+                        <a href="{{ route('assistence-solicitation.create') }}" >
+                            Cadastrar minha Empresa
+                        </a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ route('auth.login') }}">Admin</a></li>

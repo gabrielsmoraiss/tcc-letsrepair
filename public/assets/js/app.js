@@ -6,7 +6,6 @@ require('./events/openModal.js');
 require('./events/deleteConfirmation.js');
 
 //findParticipant.init();
-
 StartApplication();
 $(document).on('needs-application-restart', function(e) {
   StartApplication();
@@ -17,7 +16,6 @@ function initMap() {
     center: {lat: -33.866, lng: 151.196},
     zoom: 15
   });
-  alert('teste');
   var infowindow = new google.maps.InfoWindow();
   var service = new google.maps.places.PlacesService(map);
 
@@ -55,6 +53,25 @@ function StartApplication() {
   makeSelectizeOnEach();
   makeDataTableOnEach();
 
+  	//Função para deletar assistencia após aprovala e inseri-la no fusion tables
+	$('[data-aprove-delete]').one("click", function(e) {
+		var target = e.target;
+	  	//e.preventDefault();
+	  	//e.stopPropagation();
+	  	var form = $(target).closest('form');
+
+		var url = $(target).data('aprove-delete');
+		
+	  	$.ajax({
+	      	url: url,
+	      	data: form.serialize(),
+	      	method: "DELETE",
+	      	success: function(data) {
+	      		console.log('foi');
+	      	}
+    	});
+
+	 });
 }
 
 $.extend($.fn.dataTable.defaults, dataTablesConfig($('meta[name=locale]').prop('content')));

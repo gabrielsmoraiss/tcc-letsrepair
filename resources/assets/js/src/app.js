@@ -5,7 +5,6 @@ require('./events/openModal.js');
 require('./events/deleteConfirmation.js');
 
 //findParticipant.init();
-
 StartApplication();
 $(document).on('needs-application-restart', function(e) {
   StartApplication();
@@ -16,7 +15,6 @@ function initMap() {
     center: {lat: -33.866, lng: 151.196},
     zoom: 15
   });
-  alert('teste');
   var infowindow = new google.maps.InfoWindow();
   var service = new google.maps.places.PlacesService(map);
 
