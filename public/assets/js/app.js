@@ -5,6 +5,7 @@ var StartApplication = require('./events/StartApplication.js');
 require('./events/openModal.js');
 require('./events/deleteConfirmation.js');
 
+$.material.init();
 //findParticipant.init();
 StartApplication();
 $(document).on('needs-application-restart', function(e) {
@@ -152,7 +153,6 @@ function makeSelectizeOnEach() {
     selectizeSelector.each(function(n, el) {
 
       if (!el.selectize) {
-        console.log('Selectize added on: #' + el.id);
         if(el.multiple) {
           options.maxItems = 99;
 

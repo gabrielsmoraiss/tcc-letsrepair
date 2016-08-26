@@ -96,6 +96,8 @@ gulp.task('libs', function() {
   gulp.src([
       'node_modules/jquery/dist/jquery.js',
       'node_modules/bootstrap/dist/js/bootstrap.js',
+      'node_modules/bootstrap-material-design/dist/js/material.js',
+      'node_modules/bootstrap-material-design/dist/js/ripples.js',
       'node_modules/datatables/media/js/jquery.dataTables.js',
       'node_modules/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.js',
       'node_modules/selectize/dist/js/standalone/selectize.js',

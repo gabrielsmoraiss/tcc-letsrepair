@@ -3,51 +3,63 @@
 @section('content')
 
 <div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1>Marcas Atendidas</h1>
+        </div>
+        <div class="panel-body">
+            <a href="" data-toggle="modal" data-target="#create-brands-attended" class="btn btn-success btn-raised">
+                Criar novo Produto
+            </a>
 
-    <h1>Marcas Atendidas</h1>
-
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#create-brands-attended">
-      Criar novo Produto
-    </button>
-    <br/>
-    <br/>
-    <div class="table-responsive col-sm-12">
-        <table class="display table data-table table-condensed">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Descrição</th>
-                    <th>Gerenciar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(!empty($brandsAttendeds))
-
-                    @foreach($brandsAttendeds as $brandsAttended)
+            <br/>
+            <br/>
+            <div class="table-responsive col-sm-12">
+                <table class="display table data-table table-condensed">
+                    <thead>
                         <tr>
-                            <td>{{ $brandsAttended->id }}</td>
-                            <td>{{ $brandsAttended->description }}</td>
-                            <td>
-                                <a data-href="{{ route('brands-attended.edit', $brandsAttended->id) }}"
-                                    class="btn btn-success btn-xs" data-target="#edit-brands-attended"
-                                    href="" data-modal-open="" title="Editar">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                                {!!  Form::open(['route' => ['brands-attended.destroy', $brandsAttended->id], 'method' => 'DELETE',
-                                    'data-id' => $brandsAttended->id , 'class' => 'form-horizontal','style' => 'display: inline-block'])
-                                !!}
-	                                <button data-id="{{ $brandsAttended->id }}"
-                                        type="submit" class="btn btn-xs btn-danger" title="Excluir"
-                                    >
-	                                    <i class="fa fa-remove"></i>
-	                                </button>
-                                {!! Form::close() !!}
-                            </td>
+                            <th>ID</th>
+                            <th>Descrição</th>
+                            <th>Gerenciar</th>
                         </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if(!empty($brandsAttendeds))
+
+                            @foreach($brandsAttendeds as $brandsAttended)
+                                <tr>
+                                    <td>{{ $brandsAttended->id }}</td>
+                                    <td>{{ $brandsAttended->description }}</td>
+                                    <td>
+                                        <a data-href="{{ route('brands-attended.edit', $brandsAttended->id) }}"
+                                            class="btn btn-success btn-xs" data-target="#edit-brands-attended"
+                                            href="" data-modal-open="" title="Editar">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        {!!  Form::open(['route' => [
+                                                    'brands-attended.destroy',
+                                                    $brandsAttended->id
+                                                ],
+                                                'method' => 'DELETE',
+                                                'data-id' => $brandsAttended->id ,
+                                                'class' => 'form-horizontal',
+                                                'style' => 'display: inline-block'
+                                            ])
+                                        !!}
+        	                                <button data-id="{{ $brandsAttended->id }}"
+                                                type="submit" class="btn btn-xs btn-danger" title="Excluir"
+                                            >
+        	                                    <i class="fa fa-remove"></i>
+        	                                </button>
+                                        {!! Form::close() !!}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 <br/>

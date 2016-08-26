@@ -11,9 +11,9 @@
                 <p>Acesse o sistema com seu e-mail e senha</p>
                 <div class="col-sm-12">    
                 {!! Form::open(['route' => 'auth.authenticate', 'class' => 'form-horizontal']) !!}
-                    {!! Form::emailFieldClean('email', 'Email') !!}
-                    {!! Form::passwordFieldClean('password', 'Senha') !!}
-                    {!! Form::submitBtn('Entrar', 'btn btn-primary btn-block btn-entrar') !!}
+                    {!! Form::emailField('email', 'Email') !!}
+                    {!! Form::passwordField('password', 'Senha') !!}
+                    {!! Form::submitBtn('Entrar', 'btn btn-success btn-entrar') !!}
                 {!! Form::close() !!}
                 </div>
             </div>
