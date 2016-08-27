@@ -12644,8 +12644,11 @@ body {
   margin-top: 30px;
 }
 #map {
-  height: 100%;
-  height: 580px;
+  min-height: 82vh;
+  max-height: 82vh;
+}
+.panel-filter {
+  min-height: 82vh;
 }
 /*Selectize*/
 .selectize-control.single .selectize-input:after,

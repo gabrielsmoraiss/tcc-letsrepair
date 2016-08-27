@@ -13,13 +13,13 @@
 			</div>
 		</div>
 		<div class="col-sm-4" style="padding-left: 0">
-			<div class="panel panel-info">
+			<div class="panel panel-info panel-filter">
 				<div class="panel-heading">
 					Buscar Assistências		
 				</div>
 				<div class="panel-body">
 					
-					<div class="filtro ">
+					<div class="filtro">
 		                <form id="form-busca">
 							{!! Form::textField('address', 'Onde pesquisar') !!}
 
