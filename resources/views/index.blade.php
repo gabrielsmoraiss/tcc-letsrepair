@@ -21,7 +21,7 @@
 					
 					<div class="filtro ">
 		                <form id="form-busca">
-							{!! Form::textFieldM('address', 'Onde pesquisar') !!}
+							{!! Form::textField('address', 'Onde pesquisar') !!}
 
 							{!! Form::selectField('category',
 								'Selecione o tipo da Assistência',
