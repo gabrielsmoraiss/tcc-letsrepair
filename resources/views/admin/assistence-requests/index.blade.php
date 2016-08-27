@@ -3,53 +3,59 @@
 @section('content')
 
 <div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1>Aprovar assistências</h1>
+            <p>Assistencias para aprovar</p>
+        </div>
+        <div class="panel-body">
+            
 
-    <h1>Aprovar assistências</h1>
-    <p>Assistencias para aprovar</p>
-
-    <br/>
-    <br/>
-    <div class="table-responsive col-sm-12">
-        <table id ="table-pessoas" class="display table data-table table-condensed">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Tipo</th>
-                    <th>Localização</th>
-                    <th>Hora de Funcionamento</th>
-                    <th>Gerenciar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if($assistences->count())
-
-                    @foreach($assistences as $assistencia)
+            <br/>
+            <br/>
+            <div class="table-responsive col-sm-12">
+                <table id ="table-pessoas" class="display table data-table table-condensed">
+                    <thead>
                         <tr>
-                            <td>{{ $assistencia->name }}</td>
-                            <td>{{ $assistencia->category }}</td>
-                            <td>{{ $assistencia->Location }}</td>
-                            <td>{{ $assistencia->businessHours }}</td>
-                            <td>
-                                <a data-href="{{ route('assistence-request.edit', $assistencia->id) }}"
-                                    class="btn btn-success btn-xs" data-target="#aprove-assistence-request"
-                                    href="" data-modal-open="" title="Editar">
-                                    <i class="fa fa-check"></i>
-                                </a>
-                                {!!  Form::open(['route' => ['assistence-request.destroy', $assistencia->id], 'method' => 'DELETE',
-                                    'data-id' => $assistencia->id , 'class' => 'form-horizontal','style' => 'display: inline-block'])
-                                !!}
-	                                <button data-id="{{ $assistencia->id }}"
-                                        type="submit" class="btn btn-xs btn-danger" title="Excluir"
-                                    >
-	                                    <i class="fa fa-remove"></i>
-	                                </button>
-                                {!! Form::close() !!}
-                            </td>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Localização</th>
+                            <th>Hora de Funcionamento</th>
+                            <th>Gerenciar</th>
                         </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if($assistences->count())
+
+                            @foreach($assistences as $assistencia)
+                                <tr>
+                                    <td>{{ $assistencia->name }}</td>
+                                    <td>{{ $assistencia->category }}</td>
+                                    <td>{{ $assistencia->Location }}</td>
+                                    <td>{{ $assistencia->businessHours }}</td>
+                                    <td>
+                                        <a data-href="{{ route('assistence-request.edit', $assistencia->id) }}"
+                                            class="btn btn-success btn-xs" data-target="#aprove-assistence-request"
+                                            href="" data-modal-open="" title="Editar">
+                                            <i class="fa fa-check"></i>
+                                        </a>
+                                        {!!  Form::open(['route' => ['assistence-request.destroy', $assistencia->id], 'method' => 'DELETE',
+                                            'data-id' => $assistencia->id , 'class' => 'form-horizontal','style' => 'display: inline-block'])
+                                        !!}
+        	                                <button data-id="{{ $assistencia->id }}"
+                                                type="submit" class="btn btn-xs btn-danger" title="Excluir"
+                                            >
+        	                                    <i class="fa fa-remove"></i>
+        	                                </button>
+                                        {!! Form::close() !!}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 <br/>

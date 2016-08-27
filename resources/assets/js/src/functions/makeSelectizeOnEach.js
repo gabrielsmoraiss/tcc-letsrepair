@@ -9,7 +9,6 @@ function makeSelectizeOnEach() {
     selectizeSelector.each(function(n, el) {
 
       if (!el.selectize) {
-        console.log('Selectize added on: #' + el.id);
         if(el.multiple) {
           options.maxItems = 99;
 

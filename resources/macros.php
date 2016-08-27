@@ -29,6 +29,12 @@ Form::macro('textField', function ($name, $label = NULL, $value = NULL, $attribu
     return field_wrapper($name, $label, $element);
 });
 
+Form::macro('textFieldM', function ($name, $label = NULL, $value = NULL, $attributes = []) {
+    $element = Form::text($name, $value ? $value : old($name), field_attributes($name, $attributes));
+
+    return field_wrapper_float($name, $label, $element);
+});
+
 Form::macro('numberFieldClean', function ($name, $label = NULL, $value = NULL, $attributes = []) {
     $attributes = array_merge($attributes, ['placeholder' => $label]);
     $element = Form::number($name, $value ? $value : old($name), field_attributes($name, $attributes));
@@ -42,10 +48,22 @@ Form::macro('numberField', function ($name, $label = NULL, $value = NULL, $attri
     return field_wrapper($name, $label, $element);
 });
 
+Form::macro('numberFieldM', function ($name, $label = NULL, $value = NULL, $attributes = []) {
+    $element = Form::number($name, $value ? $value : old($name), field_attributes($name, $attributes));
+
+    return field_wrapper_float($name, $label, $element);
+});
+
 Form::macro('emailField', function ($name, $label = NULL, $value = NULL, $attributes = []) {
     $element = Form::email($name, $value ? $value : old($name), field_attributes($name, $attributes));
 
     return field_wrapper($name, $label, $element);
+});
+
+Form::macro('emailFieldM', function ($name, $label = NULL, $value = NULL, $attributes = []) {
+    $element = Form::email($name, $value ? $value : old($name), field_attributes($name, $attributes));
+
+    return field_wrapper_float($name, $label, $element);
 });
 
 Form::macro('emailFieldClean', function ($name, $label = NULL, $value = NULL, $attributes = []) {
@@ -61,6 +79,12 @@ Form::macro('passwordField', function ($name, $label = NULL, $attributes = []) {
     return field_wrapper($name, $label, $element);
 });
 
+Form::macro('passwordFieldM', function ($name, $label = NULL, $attributes = []) {
+    $element = Form::password($name, field_attributes($name, $attributes));
+
+    return field_wrapper_float($name, $label, $element);
+});
+
 Form::macro('passwordFieldClean', function ($name, $label = NULL, $value = NULL, $attributes = []) {
     $attributes = array_merge($attributes, ['placeholder' => $label]);
     $element = Form::password($name, field_attributes($name, $attributes));
@@ -73,6 +97,13 @@ Form::macro('textareaField', function ($name, $label = NULL, $value = NULL, $att
     $element = Form::textarea($name, $value ? $value : old($name), field_attributes($name, $attributes));
 
     return field_wrapper($name, $label, $element);
+});
+
+Form::macro('textareaFieldM', function ($name, $label = NULL, $value = NULL, $attributes = []) {
+    $attributes = array_merge($attributes, ['rows' => 4]);
+    $element = Form::textarea($name, $value ? $value : old($name), field_attributes($name, $attributes));
+
+    return field_wrapper_float($name, $label, $element);
 });
 
 Form::macro('tinymce', function ($name, $label = NULL, $value = NULL, $attributes = []) {
@@ -123,6 +154,12 @@ Form::macro('selectField', function ($name, $label = NULL, $options = [], $attri
     return field_wrapper($name, $label, $element);
 });
 
+Form::macro('selectFieldM', function ($name, $label = NULL, $options = [], $attributes = [], $value = NULL) {
+    $element = Form::select($name, $options, $value ? $value : old($name), field_attributes($name, $attributes));
+
+    return field_wrapper_float($name, $label, $element);
+});
+
 Form::macro('imagePickerField', function ($name, $images, $value = NULL) {
     $value = $value ? $value : old($name);
     $element = '<select name="' . $name . '"  class="image-picker show-html">';
@@ -146,7 +183,14 @@ Form::macro('selectMultipleField', function ($name, $label = NULL, $options = []
     $attributes = array_merge($attributes, ['multiple' => true]);
     $element = Form::select($name . '[]', $options, $value ? $value : old($name), field_attributes($name, $attributes));
 
-    return field_wrapper($name, $label, $element);
+    return field_wrapper_float($name, $label, $element);
+});
+
+Form::macro('selectMultipleFieldM', function ($name, $label = NULL, $options = [], $attributes = [], $value = NULL) {
+    $attributes = array_merge($attributes, ['multiple' => true]);
+    $element = Form::select($name . '[]', $options, $value ? $value : old($name), field_attributes($name, $attributes));
+
+    return field_wrapper_float($name, $label, $element);
 });
 
 Form::macro('selectMultipleFieldClean', function ($name, $label = NULL, $options = [], $value = NULL, $attributes = []) {
@@ -155,6 +199,21 @@ Form::macro('selectMultipleFieldClean', function ($name, $label = NULL, $options
     $element = Form::select($name . '[]', $options, $value ? $value : old($name), field_attributes($name, $attributes));
 
     return form_group($element, $name);
+});
+
+Form::macro('radioInlineM', function ($name, $label = NULL, array $options, $checked = NULL, $attributes = []) {
+
+    $out = $label ? '<label for="' . $name . '"> ' . $label . '</label>' : '';
+    $values = array_keys($options);
+
+    $out .= '<div class="">';
+    foreach($values as $value) {
+        $out .= '<label style="padding-right: 20px;" class="">';
+        $out .= Form::radio($name, $value, $checked ? $checked == $value : old($name) == $value , $attributes) . $options[$value];
+        $out .= '</label>';
+    }
+    $out .= '</div>';
+    return form_group($out, $name);
 });
 
 Form::macro('radioInline', function ($name, $label = NULL, array $options, $checked = NULL, $attributes = []) {
@@ -637,6 +696,16 @@ function format_float($string) {
 
 function field_wrapper($name, $label, $element) {
     $out = '<div class="form-group';
+    $out .= field_error($name) . '">';
+    $out .= field_label($name, $label);
+    $out .= $element;
+    $out .= errors_msg($name);
+    $out .= '</div>';
+    return $out;
+}
+
+function field_wrapper_float($name, $label, $element) {
+    $out = '<div class="form-group label-floating';
     $out .= field_error($name) . '">';
     $out .= field_label($name, $label);
     $out .= $element;

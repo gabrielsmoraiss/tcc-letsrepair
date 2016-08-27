@@ -9,43 +9,43 @@
             'assistence.update', $assistencia['rowid']],
             'data-validate']) !!}
             <div class="modal-body">
-                {!! Form::textField('name', 'Nome da Assistência') !!}
-                {!! Form::radioInline('typeAssist', 'Tipo', [
-                        'AUTORIZADA' => 'Autorizada',
+                {!! Form::textFieldM('name', 'Nome da Assistência') !!}
+
+                {!! Form::radioInlineM('typeAssist', 'Tipo', [
+                        'AUTORIZADA' => 'Autorizada ',
                         'ESPECIALIZADA' => 'Especializada'
                     ], $assistencia['category'])
                 !!}
-                {!! Form::textField('location', 'Endereço', $assistencia['Location']) !!}
+                {!! Form::textFieldM('location', 'Endereço', $assistencia['Location']) !!}
                 <div class="row">
                     <div class="col-sm-6">
-                        {!! Form::numberField('fone', 'Telefone', $assistencia['fone']) !!}
+                        {!! Form::textFieldM('fone', 'Telefone', $assistencia['fone']) !!}
                     </div>
                     <div class="col-sm-6">
-                        {!! Form::textField('businessHours', 'Horario de Funcionamento', $assistencia['businessHours']) !!}
+                        {!! Form::textFieldM('businessHours', 'Horario de Funcionamento', $assistencia['businessHours']) !!}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        {!! Form::selectMultipleField(
+                        {!! Form::selectMultipleFieldM(
                             'typeProduct',
                             'Tipos de produtos',
-                            $typeProducts, [], json_decode($assistencia['typeProduct']))
+                            $typeProducts, ['data-selectize'], json_decode($assistencia['typeProduct']))
                         !!}
                     </div>
                     <div class="col-sm-4">
-                        {!! Form::selectMultipleField('brandsAttendedWarranty',
+                        {!! Form::selectMultipleFieldM('brandsAttendedWarranty',
                             'Marcas Atendidas (Garantia)',
-                            $brandsAttendeds, [], json_decode($assistencia['brandsAttendedWarranty']))
+                            $brandsAttendeds, ['data-selectize'], json_decode($assistencia['brandsAttendedWarranty']))
                         !!}
                     </div>
                     <div class="col-sm-4">
-                        {!! Form::selectMultipleField('brandsAttended',
+                        {!! Form::selectMultipleFieldM('brandsAttended',
                             'Marcas Atendidas (Fora de garantia)',
-                            $brandsAttendeds, [], json_decode($assistencia['brandsAttended']))
+                            $brandsAttendeds, ['data-selectize'], json_decode($assistencia['brandsAttended']))
                         !!}
                     </div>
                 </div>
-                <p>Segure a tecla Ctrl para selecionar mais de um item.</p>
 
                 {!! Form::textareaField('info', 'Informações gerais', $assistencia['info']) !!}
             </div>

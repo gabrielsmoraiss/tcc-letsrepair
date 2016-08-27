@@ -3,51 +3,62 @@
 @section('content')
 
 <div class="container">
-
-    <h1>Tipos de Produtos</h1>
-
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#create-type-product">
-      Criar novo tipo de Produto
-    </button>
-    <br/>
-    <br/>
-    <div class="table-responsive col-sm-12">
-        <table class="display table data-table table-condensed">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Descrição</th>
-                    <th>Gerenciar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(!empty($typeProducts))
-
-                    @foreach($typeProducts as $typeProduct)
+    
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1>Tipos de Produtos</h1>
+        </div>
+        <div class="panel-body">
+            <a href="" data-toggle="modal" data-target="#create-type-product" class="btn btn-success btn-raised">
+                Criar novo tipo de Produto
+            </a>
+           
+            <div class="table-responsive col-sm-12">
+                <table class="display table data-table table-condensed">
+                    <thead>
                         <tr>
-                            <td>{{ $typeProduct->id }}</td>
-                            <td>{{ $typeProduct->description }}</td>
-                            <td>
-                                <a data-href="{{ route('type-product.edit', $typeProduct->id) }}"
-                                    class="btn btn-success btn-xs" data-target="#edit-type-product"
-                                    href="" data-modal-open="" title="Editar">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                                {!!  Form::open(['route' => ['type-product.destroy', $typeProduct->id], 'method' => 'DELETE',
-                                    'data-id' => $typeProduct->id , 'class' => 'form-horizontal','style' => 'display: inline-block'])
-                                !!}
-	                                <button data-id="{{ $typeProduct->id }}"
-                                        type="submit" class="btn btn-xs btn-danger" title="Excluir"
-                                    >
-	                                    <i class="fa fa-remove"></i>
-	                                </button>
-                                {!! Form::close() !!}
-                            </td>
+                            <th>ID</th>
+                            <th>Descrição</th>
+                            <th>Gerenciar</th>
                         </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if(!empty($typeProducts))
+
+                            @foreach($typeProducts as $typeProduct)
+                                <tr>
+                                    <td>{{ $typeProduct->id }}</td>
+                                    <td>{{ $typeProduct->description }}</td>
+                                    <td>
+                                        <a data-href="{{ route('type-product.edit', $typeProduct->id) }}"
+                                            class="btn btn-success btn-xs" data-target="#edit-type-product"
+                                            href="" data-modal-open="" title="Editar">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        {!!  Form::open(['route' => [
+                                                    'type-product.destroy',
+                                                    $typeProduct->id
+                                                ],
+                                                'method' => 'DELETE',
+                                                'data-id' => $typeProduct->id ,
+                                                'class' => 'form-horizontal',
+                                                'style' => 'display: inline-block'
+                                            ])
+                                        !!}
+        	                                <button data-id="{{ $typeProduct->id }}"
+                                                type="submit" class="btn btn-xs btn-danger" title="Excluir"
+                                            >
+        	                                    <i class="fa fa-remove"></i>
+        	                                </button>
+                                        {!! Form::close() !!}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 <br/>
@@ -68,7 +79,9 @@
                 <button type="button" class="btn btn-sm btn-danger btn-delete">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Deletar
                 </button>
-                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">
+                    Fechar
+                </button>
             </div>
         </div>
     </div>

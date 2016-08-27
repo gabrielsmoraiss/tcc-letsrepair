@@ -9,7 +9,7 @@
             </div>
             {!! Form::open(['route' => 'type-product.store']) !!}
                 <div class="modal-body">
-                    {!! Form::textField('description', 'Descrição') !!}
+                    {!! Form::textFieldM('description', 'Descrição') !!}
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Salvar</button>
