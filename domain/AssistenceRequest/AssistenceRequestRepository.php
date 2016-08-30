@@ -29,6 +29,7 @@ class AssistenceRequestRepository implements AssistenceRequestRepositoryInterfac
     public function listForSelect()
     {
         $assistenceRequests = $this->assistenceRequests->all();
+
         return $assistenceRequests->pluck('description', 'id');
     }
 
@@ -56,7 +57,8 @@ class AssistenceRequestRepository implements AssistenceRequestRepositoryInterfac
 
         $request->typeProduct = $request->typeProduct ? json_encode($request->typeProduct) : null;
         $request->brandsAttended = $request->brandsAttended ? json_encode($request->brandsAttended) : null;
-        $request->brandsAttendedWarranty = $request->brandsAttendedWarranty ? json_encode($request->brandsAttendedWarranty) : null;
+        $request->brandsAttendedWarranty = $request->brandsAttendedWarranty ?
+            json_encode($request->brandsAttendedWarranty) : null;
 
         $assistence->name = $request->input('name', $assistence->name);
         $assistence->location = $request->input('location', $assistence->location);
@@ -65,7 +67,9 @@ class AssistenceRequestRepository implements AssistenceRequestRepositoryInterfac
         $assistence->brandsAttended = $request->brandsAttended;
         $assistence->brandsAttendedWarranty = $request->brandsAttendedWarranty;
         $assistence->fone = $request->input('fone', $assistence->fone);
-        $assistence->businessHours = $request->input('businessHours', $assistence->businessHours);
+        $assistence->businessHoursDate = $request->input('businessHoursDate', $assistence->businessHoursDate);
+        $assistence->hoursStart = $request->input('hoursStart', $assistence->hoursStart);
+        $assistence->hoursEnd = $request->input('hoursEnd', $assistence->hoursEnd);
         $assistence->info = $request->input('info', $assistence->info);
         $assistence->placeId = $request->input('placeId', $assistence->placeId);
 

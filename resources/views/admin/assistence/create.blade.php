@@ -13,18 +13,17 @@
                 <div class="col-sm-10">
                     {!! Form::open(['route' => 'assistence.store']) !!}
                         {!! Form::textFieldM('name', 'Nome da Assistência') !!}
-                        {!! Form::radioInline('typeAssist', 'Tipo', [
-                                'AUTORIZADA' => 'Autorizada',
-                                'ESPECIALIZADA' => 'Especializada'
-                            ], 'AUTORIZADA')
-                        !!}
                         {!! Form::textFieldM('location', 'Endereço') !!}
                         <div class="row">
-                            <div class="col-sm-6">
-                                {!! Form::textFieldM('fone', 'Telefone') !!}
+                            <div class="col-sm-4">
+                                {!! Form::radioInline('typeAssist', 'Tipo', [
+                                        'AUTORIZADA' => 'Autorizada',
+                                        'ESPECIALIZADA' => 'Especializada'
+                                    ], 'AUTORIZADA')
+                                !!}
                             </div>
-                            <div class="col-sm-6">
-                                {!! Form::textFieldM('businessHours', 'Horario de Funcionamento') !!}
+                            <div class="col-sm-4">
+                                {!! Form::textFieldM('fone', 'Telefone') !!}
                             </div>
                         </div>
                         <div class="row">
@@ -45,6 +44,33 @@
                                 {!! Form::selectMultipleFieldM('brandsAttended',
                                     'Marcas Atendidas (Fora de garantia)',
                                     $brandsAttendeds, ['data-selectize'])
+                                !!}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Dias e horários de funcionamento</label>
+                                {!! Form::selectField('businessHoursDate',
+                                    'Selecione os dias',
+                                    [   
+                                        'SEG-SEX' => 'Segunda á Sexta',
+                                        'SEG-SAB' => 'Segunda á Sábado',
+                                        'DOM-DOM' => 'Domingo á Domingo'
+                                    ], ['data-selectize'])
+                                !!}
+                            </div>
+                            <div style="margin-top: 35px" class="col-sm-4">
+                                {!! Form::textField(
+                                        'hoursStart',
+                                        'Abre as:'
+                                    )
+                                !!}
+                            </div>
+                            <div style="margin-top: 35px" class="col-sm-4">
+                                {!! Form::textField(
+                                        'hoursEnd',
+                                        'Fecha as:'
+                                    )
                                 !!}
                             </div>
                         </div>
