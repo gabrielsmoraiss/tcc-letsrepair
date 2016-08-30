@@ -81,6 +81,15 @@ gulp.task('copy', function() {
     }))
 });
 
+gulp.task('copy-imgs', function() {
+  gulp.src([
+      'node_modules/timepicki/images/*',
+    ])
+    .pipe(copy('public/assets/images', {
+      prefix: 3
+    }))
+});
+
 gulp.task('css', function() {
   gulp.src('resources/assets/less/app/style.less')
     .pipe(less({
@@ -101,6 +110,7 @@ gulp.task('libs', function() {
       'node_modules/datatables/media/js/jquery.dataTables.js',
       'node_modules/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.js',
       'node_modules/selectize/dist/js/standalone/selectize.js',
+      'node_modules/timepicki/js/timepicki.js',
     ])
     .pipe(concat('libs.js'))
     .pipe(gulp.dest(jsDest))

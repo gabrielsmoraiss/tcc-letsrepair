@@ -36,9 +36,9 @@ class AssistenceController extends BaseController
     public function index()
     {
         $url = "https://www.googleapis.com/fusiontables/v2/query?";
-        $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, brandsAttendedWarranty, businessHours ";
+        $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, " .
+            "brandsAttendedWarranty, businessHoursDate, hoursStart, hoursEnd, active ";
         $url .= "FROM $this->tableAssistencesId&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
-
 
         $assistences = [];
         $headers = ['Accept' => 'application/json'];
@@ -86,7 +86,10 @@ class AssistenceController extends BaseController
     {  
         $request->typeProduct = $request->typeProduct ? json_encode($request->typeProduct) : null;
         $request->brandsAttended = $request->brandsAttended ? json_encode($request->brandsAttended) : null;
-        $request->brandsAttendedWarranty = $request->brandsAttendedWarranty ? json_encode($request->brandsAttendedWarranty) : null;
+        $request->brandsAttendedWarranty = $request->brandsAttendedWarranty ?
+            json_encode($request->brandsAttendedWarranty) : null;
+
+        $request->active = 1;
 
         if(is_null($this->loggedUser->tokenGoogle)) {
             return 'pegar o token';
@@ -100,8 +103,24 @@ class AssistenceController extends BaseController
             'Authorization' => $token
         ];
 
-        $optionsAssistence = "(name,category,Location,info,typeProduct,brandsAttended,brandsAttendedWarranty,fone,businessHours) VALUES ";
-        $optionsAssistence .= "('$request->name','$request->typeAssist','$request->location','$request->info','$request->typeProduct','$request->brandsAttended', '$request->brandsAttendedWarranty', '$request->fone','$request->businessHours')";
+        $optionsAssistence = "(name,category,Location,info,typeProduct,brandsAttended," .
+            "brandsAttendedWarranty,fone,active,businessHoursDate,hoursStart,hoursEnd ) " .
+            "VALUES ";
+
+        $optionsAssistence .= "(
+            '$request->name',
+            '$request->typeAssist',
+            '$request->location',
+            '$request->info',
+            '$request->typeProduct',
+            '$request->brandsAttended',
+            '$request->brandsAttendedWarranty',
+            '$request->fone',
+            '$request->active',
+            '$request->businessHoursDate',
+            '$request->hoursStart',
+            '$request->hoursEnd'
+        )";
 
         $arry['sql'] = "INSERT INTO $this->tableAssistencesId $optionsAssistence;";
  
@@ -137,7 +156,9 @@ class AssistenceController extends BaseController
     public function edit($id)
     {
         $url = "https://www.googleapis.com/fusiontables/v2/query?";
-        $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, brandsAttendedWarranty, fone, info, businessHours FROM $this->tableAssistencesId WHERE rowid=$id&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
+        $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, " .
+            "brandsAttendedWarranty, fone, info, active, businessHoursDate, hoursStart, hoursEnd ";
+        $url .= "FROM $this->tableAssistencesId WHERE rowid=$id&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
 
 
         $assistences = [];
@@ -202,7 +223,10 @@ class AssistenceController extends BaseController
             brandsAttended = '$request->brandsAttended',
             brandsAttendedWarranty = '$request->brandsAttendedWarranty',
             fone = '$request->fone',
-            businessHours = '$request->businessHours'
+            active = '$request->active',
+            businessHoursDate = '$request->businessHoursDate',
+            hoursStart = '$request->hoursStart',
+            hoursEnd = '$request->hoursEnd'
         ";
 
         $arry['sql'] = "UPDATE $this->tableAssistencesId SET $optionsAssistence WHERE ROWID = '$id';";

@@ -34,7 +34,7 @@
                                     !!}
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="mar-ver pad-ver row">
                                 <div class="col-sm-4">
                                     {!! Form::radioInline('category', 'Tipo', [
                                             'AUTORIZADA' => 'Autorizada',
@@ -48,7 +48,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <p>Escolha os dias e horários de funcionamento</p>
+                                    <label>Horário de funcionamento</label>
                                     {!! Form::selectField('businessHoursDate',
                                         'Selecione os dias',
                                         [   
@@ -58,17 +58,16 @@
                                         ], ['data-selectize'])
                                     !!}
                                 </div>
-                                <p>Selecione os horários</p>
-                                <div class="col-sm-4">
+                                <div style="margin-top: 35px" class="col-sm-4">
                                     {!! Form::textField(
-                                            'HoursStart',
+                                            'hoursStart',
                                             'Abre as:'
                                         )
                                     !!}
                                 </div>
-                                <div class="col-sm-4">
+                                <div style="margin-top: 35px" class="col-sm-4">
                                     {!! Form::textField(
-                                            'HoursEnd',
+                                            'hoursEnd',
                                             'Fecha as:'
                                         )
                                     !!}

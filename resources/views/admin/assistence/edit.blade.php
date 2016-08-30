@@ -10,19 +10,17 @@
             'data-validate']) !!}
             <div class="modal-body">
                 {!! Form::textFieldM('name', 'Nome da Assistência') !!}
-
-                {!! Form::radioInlineM('typeAssist', 'Tipo', [
-                        'AUTORIZADA' => 'Autorizada ',
-                        'ESPECIALIZADA' => 'Especializada'
-                    ], $assistencia['category'])
-                !!}
                 {!! Form::textFieldM('location', 'Endereço', $assistencia['Location']) !!}
                 <div class="row">
                     <div class="col-sm-6">
                         {!! Form::textFieldM('fone', 'Telefone', $assistencia['fone']) !!}
                     </div>
                     <div class="col-sm-6">
-                        {!! Form::textFieldM('businessHours', 'Horario de Funcionamento', $assistencia['businessHours']) !!}
+                        {!! Form::radioInlineM('typeAssist', 'Tipo', [
+                                'AUTORIZADA' => ' Autorizada ',
+                                'ESPECIALIZADA' => ' Especializada'
+                            ], $assistencia['category'])
+                        !!}
                     </div>
                 </div>
                 <div class="row">
@@ -43,6 +41,35 @@
                         {!! Form::selectMultipleFieldM('brandsAttended',
                             'Marcas Atendidas (Fora de garantia)',
                             $brandsAttendeds, ['data-selectize'], json_decode($assistencia['brandsAttended']))
+                        !!}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>Dias e horários de funcionamento</label>
+                        {!! Form::selectField('businessHoursDate',
+                            'Selecione os dias',
+                            [   
+                                'SEG-SEX' => 'Segunda á Sexta',
+                                'SEG-SAB' => 'Segunda á Sábado',
+                                'DOM-DOM' => 'Domingo á Domingo'
+                            ], ['data-selectize'], $assistencia['businessHoursDate'])
+                        !!}
+                    </div>
+                    <div style="margin-top: 35px" class="col-sm-4">
+                        {!! Form::textField(
+                                'hoursStart',
+                                'Abre as:',
+                                $assistencia['hoursStart']
+                            )
+                        !!}
+                    </div>
+                    <div style="margin-top: 35px" class="col-sm-4">
+                        {!! Form::textField(
+                                'hoursEnd',
+                                'Fecha as:',
+                                $assistencia['hoursEnd']
+                            )
                         !!}
                     </div>
                 </div>

@@ -45,6 +45,8 @@
     "yargs": "~4.7.0",
     "stringify": "~5.1.0",
     "selectize": "~0.12.1",
-    "gulp-minify-css": "~1.2.4"
+    "gulp-minify-css": "~1.2.4",
+    "bootstrap-material-design": "~0.5.10",
+    "timepicki": "~2.0.1"
   }
 }

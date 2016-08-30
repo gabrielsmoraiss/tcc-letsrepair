@@ -72,7 +72,10 @@ function StartApplication() {
 	      	}
     	});
 
-	 });
+	});
+
+ 	$('#hoursStart').timepicki();
+ 	$('#hoursEnd').timepicki();
 }
 
 $.extend($.fn.dataTable.defaults, dataTablesConfig($('meta[name=locale]').prop('content')));

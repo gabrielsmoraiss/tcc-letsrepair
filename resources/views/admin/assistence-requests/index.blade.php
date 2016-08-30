@@ -20,7 +20,7 @@
                             <th>Nome</th>
                             <th>Tipo</th>
                             <th>Localização</th>
-                            <th>Hora de Funcionamento</th>
+                            <th>Atende</th>
                             <th>Gerenciar</th>
                         </tr>
                     </thead>
@@ -31,16 +31,25 @@
                                 <tr>
                                     <td>{{ $assistencia->name }}</td>
                                     <td>{{ $assistencia->category }}</td>
-                                    <td>{{ $assistencia->Location }}</td>
-                                    <td>{{ $assistencia->businessHours }}</td>
+                                    <td>{{ $assistencia->location }}</td>
+                                    <td>{{ $assistencia->present()->businessHours }}</td>
                                     <td>
                                         <a data-href="{{ route('assistence-request.edit', $assistencia->id) }}"
                                             class="btn btn-success btn-xs" data-target="#aprove-assistence-request"
                                             href="" data-modal-open="" title="Editar">
                                             <i class="fa fa-check"></i>
                                         </a>
-                                        {!!  Form::open(['route' => ['assistence-request.destroy', $assistencia->id], 'method' => 'DELETE',
-                                            'data-id' => $assistencia->id , 'class' => 'form-horizontal','style' => 'display: inline-block'])
+                                        {!!  Form::open([
+                                                'route' => [
+                                                    'assistence-request.destroy',
+                                                    $assistencia->id
+                                                ],
+                                                    'method' => 'DELETE',
+                                                    'data-id' => $assistencia->id ,
+                                                    'class' => 'form-horizontal',
+                                                    'style' => 'display: inline-block'
+                                                ]
+                                            )
                                         !!}
         	                                <button data-id="{{ $assistencia->id }}"
                                                 type="submit" class="btn btn-xs btn-danger" title="Excluir"
