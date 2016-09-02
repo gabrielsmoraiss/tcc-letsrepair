@@ -44,7 +44,7 @@ gulp.task('browserify', function() {
       suffix: '.min'
     }))
     .pipe(sourcemaps.init())
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(jsDest))
     .pipe(notify('Browserify is done.'));
@@ -65,7 +65,7 @@ gulp.task('js', function() {
       suffix: '.min'
     }))
     .pipe(sourcemaps.init())
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(jsDest))
     .pipe(notify('Build de Javascript finalizada #choraJaveiro'));
@@ -115,7 +115,7 @@ gulp.task('libs', function() {
     .pipe(concat('libs.js'))
     .pipe(gulp.dest(jsDest))
     .pipe(rename('libs.min.js'))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest(jsDest))
     .pipe(notify("Libs finalizado!"));
 });
