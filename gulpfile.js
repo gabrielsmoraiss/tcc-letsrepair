@@ -120,7 +120,10 @@ gulp.task('libs', function() {
     .pipe(notify("Libs finalizado!"));
 });
 
-gulp.task('default', ['browserify', 'css', 'libs']);
+
+gulp.task('default', ['browserify', 'css', 'libs', 'copy-imgs', 'copy']);
+
+gulp.task('new-instalation', ['browserify', 'css', 'libs']);
 
 gulp.task('watch', ['browserify', 'css', 'libs'], function() {
   gulp.watch(lessPath + '/app/**/*.less', ['css']);
