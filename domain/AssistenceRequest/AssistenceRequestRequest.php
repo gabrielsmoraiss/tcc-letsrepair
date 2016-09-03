@@ -24,7 +24,11 @@ class AssistenceRequestRequest extends Request
     public function rules()
     {
         return [
-            //'description' => 'sometimes|required',
+            'name' => 'sometimes|required',
+            'location' => 'sometimes|required',
+            'category' => 'sometimes|required',
+            'typeProduct' => 'sometimes|required',
+            'brandsAttended' => 'sometimes|required',
         ];
     }
 
@@ -36,7 +40,11 @@ class AssistenceRequestRequest extends Request
     public function messages()
     {
         return [
-            //'description.required' => 'Por favor, insira uma descrição.',   
+            'name.required' => 'Por favor, insira um nome.',   
+            'location.required' => 'Por favor, insira um local.',   
+            'category.required' => 'Por favor, selecione uma categoria.',   
+            'typeProduct.required' => 'Por favor, selecione um tipo de produto.',   
+            'brandsAttended.required' => 'Por favor, selecione uma(s) marca atendida.',   
         ];
     }
 }
