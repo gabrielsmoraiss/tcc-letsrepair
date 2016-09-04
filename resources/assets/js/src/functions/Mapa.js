@@ -104,7 +104,7 @@ $form.submit(function(e) {
   e.preventDefault();
 
   var address = $('#address').val();
-  var radius = $('#radius').val() * 100;
+  var radius = $('#radius').val() * 1000;
   var category = $('#category').val();
   var typeProduct = $('#typeProduct').val();
   var brandsAttended = $('#brandsAttended').val();
