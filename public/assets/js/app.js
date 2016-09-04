@@ -354,7 +354,6 @@ function clearMap() {
   }
 
   window.calcRoute = function(end) {
-
     var enderecoPartida = $('#address').val();
     var enderecoChegada = end;
 
@@ -366,9 +365,7 @@ function clearMap() {
     };
     
     directionsService.route(request, function(response, status) {
-      console.log('oe');
       if (status == google.maps.DirectionsStatus.OK) {
-        console.log('oe2');
       directionsDisplay.setDirections(response);
       }
     });

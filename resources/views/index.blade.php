@@ -12,7 +12,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-4" style="padding-left: 0">
+		<div class="col-sm-4">
 			<div class="panel panel-info panel-filter">
 				<div class="panel-heading">
 					Buscar Assistências		
