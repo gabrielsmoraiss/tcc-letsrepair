@@ -44,8 +44,8 @@
 
 							{!! Form::numberField('radius',
 								'Área coberta pela busca (até 50km)',
-								40000,
-								['placeholder' => '25 km', 'max' => 50000])
+								20,
+								['max' => 50])
 							!!}
 
 							<button type="submit"

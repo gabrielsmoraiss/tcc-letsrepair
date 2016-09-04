@@ -204,11 +204,11 @@ $form.submit(function(e) {
   e.preventDefault();
 
   var address = $('#address').val();
-  var radius = $('#radius').val();
+  var radius = $('#radius').val() * 100;
   var category = $('#category').val();
   var typeProduct = $('#typeProduct').val();
   var brandsAttended = $('#brandsAttended').val();
-    
+    console.log(radius);
   geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       var pos = JSON.stringify(results[0].geometry.location);
