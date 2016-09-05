@@ -47,9 +47,9 @@ class AssistenceRequestController extends BaseController
      */
     public function show($id)
     {
-        $assistenceRequest = $this->assistenceRequests->show($id);
+        return $assistenceRequest = $this->assistenceRequests->show($id);
 
-        return view('admin.assistence-requests.show', compact('assistenceRequest'));
+        //return view('admin.assistence-requests.show', compact('assistenceRequest'));
     }
 
     /**

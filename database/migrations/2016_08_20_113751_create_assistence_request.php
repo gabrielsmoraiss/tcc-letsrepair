@@ -23,8 +23,8 @@ class CreateAssistenceRequest extends Migration
             $table->text('brandsAttendedWarranty')->nullable();
             $table->integer('fone')->nullable();
             $table->string('businessHoursDate')->nullable();
-            $table->string('HoursStart')->nullable();
-            $table->string('HoursEnd')->nullable();
+            $table->string('hoursStart')->nullable();
+            $table->string('hoursEnd')->nullable();
             $table->string('info', 500)->nullable();
             $table->string('placeId', 500)->nullable();
             $table->softDeletes();
