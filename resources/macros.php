@@ -48,6 +48,20 @@ Form::macro('numberField', function ($name, $label = NULL, $value = NULL, $attri
     return field_wrapper($name, $label, $element);
 });
 
+Form::macro('numberFieldIcon', function ($name, $label, $content = 'pencil', $end = false, array $attributes = [], $value = NULL) {
+    $addon = '<span class="input-group-addon">';
+    $addon .= '<span class="fa fa-' . $content . '"></span>';
+    $addon .= "</span>";
+    $element = Form::number($name, $value ? $value : old($name), field_attributes($name, $attributes));
+    $out = '<div class="input-group">';
+    $out .= $end ? '' : $addon;
+    $out .= $element;
+    $out .= $end ? $addon : '';
+    $out .= '</div>';
+
+    return field_wrapper($name, $label, $out);
+});
+
 Form::macro('numberFieldM', function ($name, $label = NULL, $value = NULL, $attributes = []) {
     $element = Form::number($name, $value ? $value : old($name), field_attributes($name, $attributes));
 

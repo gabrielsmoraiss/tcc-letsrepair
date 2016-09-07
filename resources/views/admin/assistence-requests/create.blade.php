@@ -5,12 +5,12 @@
 <div class="container">
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h1>Cadastrar Assistência</h1>
+            <h1><i class="fa fa-gears"></i> Cadastro de Assistência</h1>
         </div>
         {!! Form::open(['route' => 'assistence-solicitation.store']) !!}
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-10">
+                    <div class="col-sm-12">
                             {!! Form::textFieldM('name', 'Nome da Assistência') !!}
                             {!! Form::textFieldM('location', 'Endereço') !!}
                             <div class="row">

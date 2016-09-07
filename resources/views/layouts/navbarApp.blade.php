@@ -6,15 +6,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{{ url('index') }}">Let's Repair</a>
+      <a class="navbar-brand text-bold" href="{{ url('index') }}">Let's Repair</a>
     </div>
     <div class="navbar-collapse collapse navbar-inverse-collapse">
       <ul class="nav navbar-nav">
-         <li class="{{-- active('admin/index') --}}" >
-            <a href="{{-- route('admin.index') --}}">
-                Conhecimento
-            </a>
-        </li>
         <li class="{{-- active('admin/assistence*') --}}">
             <a href="{{-- route('admin.assistence') --}}" >
                 Pesquisar Assistências
@@ -27,7 +22,7 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ route('auth.login') }}">Admin</a></li>
+        <li><a href="{{ route('auth.login') }}"><i class="fa fa-sign-in text-lg"></i></a></li>
       </ul>
     </div>
   </div>

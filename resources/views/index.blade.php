@@ -21,8 +21,15 @@
 					
 					<div class="filtro">
 		                <form id="form-busca">
-							{!! Form::textField('address', 'Onde pesquisar') !!}
-
+							{!! Form::textFieldIcon('address', 'Onde pesquisar', 'location-arrow') !!}
+							{!! Form::numberFieldIcon('radius',
+									'Área coberta pela busca (até 50km)',
+									'arrows-h',
+									'',
+									['max' => 50],
+									20
+								)
+							!!}
 							{!! Form::selectField('category',
 								'Selecione o tipo da Assistência',
 								['AUTORIZADA' => 'Autorizada',
@@ -42,23 +49,11 @@
 								['placeholder' => 'Buscar todas as marcas', 'data-selectize'])
 							!!}
 
-							{!! Form::numberField('radius',
-								'Área coberta pela busca (até 50km)',
-								20,
-								['max' => 50])
-							!!}
 
 							<button type="submit"
-			                    class="btn btn-success btn-raised btn-block"> Filtrar
+			                    class="btn btn-success btn-raised btn-block"><i class="fa fa-filter"></i> Filtrar
 			                </button>              
 		                </form>
-					</div>
-
-					<div class="all">
-						<button type="submit"
-		                    class="btn btn-info btn-raised btn-block" id="js-everythingAroundMe">
-		                    Buscar ao meu Redor
-		                </button>
 					</div>
 					<br>
 					<p>*Icones Amarelos: Assistência Autorizada;</p>

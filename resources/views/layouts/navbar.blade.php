@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{{ url('index-admin') }}">Let's Repair</a>
+      <a class="navbar-brand text-bold" href="{{ url('index-admin') }}">Let's Repair</a>
     </div>
     <div class="navbar-collapse collapse navbar-inverse-collapse">
         <ul class="nav navbar-nav">
