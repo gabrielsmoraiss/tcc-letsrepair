@@ -105,7 +105,10 @@ class AuthController extends BaseController
      */
     public function logout()
     {
-        return $this->logoutWithFlash('index', 'Você saiu!', 'warning');
+         Auth::logout();
+         
+        return redirect()->route('index');
+        //return $this->logoutWithFlash('index', 'Você saiu!', 'warning');
     }
 
     /**

@@ -146,6 +146,7 @@ if (navigator.geolocation) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
             $address.val(results[1].formatted_address);
+            getEverythingAroundMe();
           } else {
             console.log('Local não encontrado!');
           }
