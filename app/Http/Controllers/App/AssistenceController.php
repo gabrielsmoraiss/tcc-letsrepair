@@ -71,7 +71,6 @@ class AssistenceController extends BaseController
      */
     public function show($id)
     {
-        
         $url = "https://www.googleapis.com/fusiontables/v2/query?";
         $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, " .
             "brandsAttendedWarranty, fone, info, active, businessHoursDate, hoursStart, hoursEnd ";
@@ -81,14 +80,8 @@ class AssistenceController extends BaseController
         $assistences = [];
         $headers = ['Accept' => 'application/json'];
 
-        //$options = [    
-            //'sql' => "SELECT * FROM $this->tableAssistencesId",
-            //'key' => 'AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc'
-        //];
-
         $response = Requests::get($url, $headers);
 
-            //dd($response);
         if($response->success) {
 
             $assistenciasJson = json_decode($response->body);
@@ -101,28 +94,32 @@ class AssistenceController extends BaseController
             dd('Erro:', $response);
         }
 
-        $assistencia['typeProduct'] = $this->typeProducts
-            ->index()
-            ->whereIn('id', array_map('intval', json_decode($assistencia['typeProduct'])))
-            ->pluck('description');
+        if($assistencia['typeProduct']) {
+            $assistencia['typeProduct'] = $this->typeProducts
+                ->index()
+                ->whereIn('id', array_map('intval', json_decode($assistencia['typeProduct'])))
+                ->pluck('description');
 
-        $assistencia['typeProduct'] = implode(', ', $assistencia['typeProduct']->all());
+            $assistencia['typeProduct'] = implode(', ', $assistencia['typeProduct']->all());
+        }
 
-        //brandsAttended
-        $assistencia['brandsAttended'] = $this->brandsAttendeds
+        if($assistencia['brandsAttended']) {
+            $assistencia['brandsAttended'] = $this->brandsAttendeds
             ->index()
             ->whereIn('id', array_map('intval', json_decode($assistencia['brandsAttended'])))
             ->pluck('description');
 
-        $assistencia['brandsAttended'] = implode(', ', $assistencia['brandsAttended']->all());
+            $assistencia['brandsAttended'] = implode(', ', $assistencia['brandsAttended']->all());
+        }
 
+        if($assistencia['brandsAttendedWarranty']) {
+            $assistencia['brandsAttendedWarranty'] = $this->brandsAttendeds
+                ->index()
+                ->whereIn('id', array_map('intval', json_decode($assistencia['brandsAttendedWarranty'])))
+                ->pluck('description');
 
-        $assistencia['brandsAttendedWarranty'] = $this->brandsAttendeds
-            ->index()
-            ->whereIn('id', array_map('intval', json_decode($assistencia['brandsAttendedWarranty'])))
-            ->pluck('description');
-
-        $assistencia['brandsAttendedWarranty'] = implode(', ', $assistencia['brandsAttendedWarranty']->all());
+            $assistencia['brandsAttendedWarranty'] = implode(', ', $assistencia['brandsAttendedWarranty']->all());
+        }
 
         return view('admin.assistence.search-show', compact('assistencia', 'typeProducts', 'brandsAttendeds'));
     }
