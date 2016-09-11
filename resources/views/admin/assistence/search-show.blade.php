@@ -10,20 +10,23 @@
             <p><strong>Endereço: </strong>{{ $assistencia['Location'] }}</p>
             <p><strong>Telefone: </strong>{{ $assistencia['fone'] }}</p>
             <p><strong>Tipos de produtos: </strong>
-                {{ $assistencia['typeProduct'] ? implode(json_decode($assistencia['typeProduct'])) : '' }}
+                {{ $assistencia['typeProduct'] }}
             </p>
             <p><strong>Marcas Atendidas (Garantia): </strong>
-                {{ $assistencia['brandsAttendedWarranty'] ?
-                    implode(json_decode($assistencia['brandsAttendedWarranty'])) : ''
-                }}
+                {{ $assistencia['brandsAttendedWarranty'] }}
             </p>
             <p><strong>Marcas Atendidas (Fora de garantia): </strong>
-                {{ $assistencia['brandsAttended'] ?
-                    implode(json_decode($assistencia['brandsAttended'])) : ''
+                {{ $assistencia['brandsAttended'] }}
+            </p>
+            <p><strong>Horario de Funcionamento: </strong>
+                {{ $assistencia['businessHoursDate'] . ' ' .
+                    $assistencia['hoursStart'] . ' ás ' .
+                    $assistencia['hoursEnd']
                 }}
             </p>
-            <p><strong>Horario de Funcionamento: </strong></p>
             <p><strong>Informações gerais: </strong>{{ $assistencia['info'] }}</p>
+
+            <a href="#">Ver no Mapa</a>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-success">Salvar</button>

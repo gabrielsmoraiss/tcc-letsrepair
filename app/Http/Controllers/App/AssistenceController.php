@@ -101,8 +101,28 @@ class AssistenceController extends BaseController
             dd('Erro:', $response);
         }
 
-        $typeProducts = $this->typeProducts->listForSelect();
-        $brandsAttendeds = $this->brandsAttendeds->listForSelect();
+        $assistencia['typeProduct'] = $this->typeProducts
+            ->index()
+            ->whereIn('id', array_map('intval', json_decode($assistencia['typeProduct'])))
+            ->pluck('description');
+
+        $assistencia['typeProduct'] = implode(', ', $assistencia['typeProduct']->all());
+
+        //brandsAttended
+        $assistencia['brandsAttended'] = $this->brandsAttendeds
+            ->index()
+            ->whereIn('id', array_map('intval', json_decode($assistencia['brandsAttended'])))
+            ->pluck('description');
+
+        $assistencia['brandsAttended'] = implode(', ', $assistencia['brandsAttended']->all());
+
+
+        $assistencia['brandsAttendedWarranty'] = $this->brandsAttendeds
+            ->index()
+            ->whereIn('id', array_map('intval', json_decode($assistencia['brandsAttendedWarranty'])))
+            ->pluck('description');
+
+        $assistencia['brandsAttendedWarranty'] = implode(', ', $assistencia['brandsAttendedWarranty']->all());
 
         return view('admin.assistence.search-show', compact('assistencia', 'typeProducts', 'brandsAttendeds'));
     }
