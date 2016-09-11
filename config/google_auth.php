@@ -1,7 +1,8 @@
 <?php
 
 return [
-    "base_url" => "http://letsrepair.dev/auth-google/auth",
+    "base_url" => "http://letsrepair.sytes.net/auth-google/auth",
+    //"base_url" => "http://letsrepair.dev/auth-google/auth",
         "providers" => [
             "Google" => [
                 "enabled" => true,

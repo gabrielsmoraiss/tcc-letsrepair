@@ -14,16 +14,27 @@ Route::group(['middleware' => 'auth'], function () {
     //Route::resource('users', 'UserController');
 
 	//index
-	Route::get('/admin', ['as' => 'admin.index', 'uses' => 'AdminController@index']);
-	Route::get('/index-admin', ['as' => 'admin.index-admin', 'uses' => 'AdminController@indexAdmin']);
-	//Route::get('/assistence', ['as' => 'admin.assistence', 'uses' => 'App\AssistenceController@index']);
-	Route::get('auth-google/{auth?}', ['as' => 'auth-google', 'uses' => 'App\AssistenceController@getGoogleLogin']);
-	Route::resource('assistence', 'App\AssistenceController');
-	
-	Route::get('assistences/logout-google', ['as' => 'logout-google', 'uses' => 'App\AssistenceController@getGoogleLogout']);
+	Route::get('/admin', ['as' => 'admin.index', 'uses' => 'Admin\AdminController@index']);
+	Route::get('/index-admin', ['as' => 'auth.index-admin', 'uses' => 'Admin\AdminController@indexAdmin']);
 
+	Route::get('auth-google/{auth?}', ['as' => 'auth-google', 'uses' => 'Admin\AssistenceController@getGoogleLogin']);
+	Route::resource('assistence', 'Admin\AssistenceController');
+	
+	Route::get('assistences/logout-google', ['as' => 'logout-google', 'uses' => 'Admin\AssistenceController@getGoogleLogout']);
+
+	Route::resource('type-product', 'App\TypeProductController');
+	Route::resource('brands-attended', 'App\BrandsAttendedController');
+
+	//Rotas para Assistencia request
+	Route::resource('assistence-request', 'Admin\AssistenceRequestController', ['except' => ['create', 'store']]);
 });
 
+Route::resource('search-assistence', 'App\AssistenceController', ['except' => ['create', 'store', 'update', 'edit', 'destroy']]);
+
+Route::get('/assistence-solicitation', ['as' => 'assistence-solicitation.create', 'uses' => 'App\AssistenceRequestController@create']);
+Route::post('/assistence-solicitation', ['as' => 'assistence-solicitation.store', 'uses' => 'App\AssistenceRequestController@store']);
+
+Route::get('/index', ['as' => 'index', 'uses' => 'Auth\AuthController@index']);
 Route::get('/', ['as' => 'index', 'uses' => 'Auth\AuthController@index']);
 
 

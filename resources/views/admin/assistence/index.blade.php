@@ -4,59 +4,60 @@
 
 <div class="container">
 
-    <h1>Assistências</h1>
-
-    <a href="{{ route('assistence.create') }}" class="btn btn-primary">
-        Criar nova Assistência
-    </a>
-    <br/>
-    <br/>
-    <div class="table-responsive col-sm-12">
-        <table id ="table-pessoas" class="display table data-table table-condensed">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Tipo</th>
-                    <th>Localização</th>
-                    <th>Hora de Funcionamento</th>
-                    <th>Gerenciar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(!empty($assistences))
-
-                    @foreach($assistences as $assistencia)
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1><i class="fa fa-gears"></i> Assistências</h1>
+        </div>
+        <div class="panel-body">
+            <a href="{{ route('assistence.create') }}" class="btn btn-success btn-raised">
+                <i class="fa fa-plus"></i> Criar nova Assistência
+            </a>
+            <div class="table-responsive col-sm-12">
+                <table id ="table-pessoas" class="display table data-table table-condensed">
+                    <thead>
                         <tr>
-                            <td>{{ $assistencia['name'] }}</td>
-                            <td>{{ $assistencia['category'] }}</td>
-                            <td>{{ $assistencia['Location'] }}</td>
-                            <td>{{ $assistencia['businessHours'] }}</td>
-                            <td>
-                                <a href="{{-- route('admin.pessoas.show', $assistencia['rowid']) --}}" title="Ver Assistência"
-                                	class="btn btn-xs btn-info">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                                <a data-href="{{ route('assistence.edit', $assistencia['rowid']) }}"
-                                    class="btn btn-success btn-xs" data-target="#edit-assistence-modal"
-                                    href="" data-modal-open="" title="Editar">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                                {!!  Form::open(['route' => ['assistence.destroy', $assistencia['rowid']], 'method' => 'DELETE',
-                                    'data-id' => $assistencia['rowid'] , 'class' => 'form-horizontal','style' => 'display: inline-block'])
-                                !!}
-	                                <button data-id="{{ $assistencia['rowid'] }}"
-                                        type="submit" class="btn btn-xs btn-danger" title="Excluir"
-                                    >
-	                                    <i class="fa fa-remove"></i>
-	                                </button>
-                                {!! Form::close() !!}
-                            </td>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Gerenciar</th>
                         </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if(!empty($assistences))
+
+                            @foreach($assistences as $assistencia)
+                                <tr>
+                                    <td>{{ $assistencia['name'] }}</td>
+                                    <td>{{ $assistencia['category'] }}</td>
+                                    <td>
+                                        <a href="{{-- route('admin.pessoas.show', $assistencia['rowid']) --}}" title="Ver Assistência"
+                                        	class="btn btn-xs btn-info">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                        <a data-href="{{ route('assistence.edit', $assistencia['rowid']) }}"
+                                            class="btn btn-success btn-xs" data-target="#edit-assistence-modal"
+                                            href="" data-modal-open="" title="Editar">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        {!!  Form::open(['route' => ['assistence.destroy', $assistencia['rowid']], 'method' => 'DELETE',
+                                            'data-id' => $assistencia['rowid'] , 'class' => 'form-horizontal','style' => 'display: inline-block'])
+                                        !!}
+        	                                <button data-id="{{ $assistencia['rowid'] }}"
+                                                type="submit" class="btn btn-xs btn-danger" title="Excluir"
+                                            >
+        	                                    <i class="fa fa-remove"></i>
+        	                                </button>
+                                        {!! Form::close() !!}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
+
 </div>
 <br/>
 
@@ -84,7 +85,7 @@
 
 <!-- Modal editar Assistencias -->
 <div class="modal fade" id="edit-assistence-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         
     </div>
 </div>

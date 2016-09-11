@@ -44,7 +44,7 @@ gulp.task('browserify', function() {
       suffix: '.min'
     }))
     .pipe(sourcemaps.init())
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(jsDest))
     .pipe(notify('Browserify is done.'));
@@ -65,7 +65,7 @@ gulp.task('js', function() {
       suffix: '.min'
     }))
     .pipe(sourcemaps.init())
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(jsDest))
     .pipe(notify('Build de Javascript finalizada #choraJaveiro'));
@@ -77,6 +77,15 @@ gulp.task('copy', function() {
       'node_modules/font-awesome/fonts/*'
     ])
     .pipe(copy('public/assets/fonts', {
+      prefix: 3
+    }))
+});
+
+gulp.task('copy-imgs', function() {
+  gulp.src([
+      'node_modules/timepicki/images/*',
+    ])
+    .pipe(copy('public/assets/images', {
       prefix: 3
     }))
 });
@@ -96,19 +105,25 @@ gulp.task('libs', function() {
   gulp.src([
       'node_modules/jquery/dist/jquery.js',
       'node_modules/bootstrap/dist/js/bootstrap.js',
+      'node_modules/bootstrap-material-design/dist/js/material.js',
+      'node_modules/bootstrap-material-design/dist/js/ripples.js',
       'node_modules/datatables/media/js/jquery.dataTables.js',
       'node_modules/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.js',
       'node_modules/selectize/dist/js/standalone/selectize.js',
+      'node_modules/timepicki/js/timepicki.js',
     ])
     .pipe(concat('libs.js'))
     .pipe(gulp.dest(jsDest))
     .pipe(rename('libs.min.js'))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest(jsDest))
     .pipe(notify("Libs finalizado!"));
 });
 
-gulp.task('default', ['browserify', 'css', 'libs']);
+
+gulp.task('default', ['browserify', 'css', 'libs', 'copy-imgs', 'copy']);
+
+gulp.task('new-instalation', ['browserify', 'css', 'libs']);
 
 gulp.task('watch', ['browserify', 'css', 'libs'], function() {
   gulp.watch(lessPath + '/app/**/*.less', ['css']);

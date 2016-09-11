@@ -3,73 +3,63 @@
 
 @section('content')
 
-<div class="container">
+<div class="container-fluid">
 	<div class="row" >
 		<div class="col-sm-8">
-			<div style="height: 500px" id="map"></div>
-		</div>
-		<div class="col-sm-4">
-			<div class="all">
-				<div class="row" >
-					<div class="col-sm-12">
-						<button type="submit"
-		                    class="btn btn-info" id="js-everythingAroundMe">
-		                    Buscar tudo ao meu Redor
-		                </button>
-					</div>
+			<div class="panel">
+				<div class="panel-body">
+					<div id="map"></div>
 				</div>
 			</div>
-			<br>
-			<div class="filtro">
-                <form id="form-busca">
-					{!! Form::textField('address', 'Onde pesquisar', '',
-						['placeholder' => 'Digite o local de onde buscar'])
-					!!}
+		</div>
+		<div class="col-sm-4">
+			<div class="panel panel-info panel-filter">
+				<div class="panel-heading">
+					Buscar Assistências		
+				</div>
+				<div class="panel-body">
+					
+					<div class="filtro">
+		                <form id="form-busca">
+							{!! Form::textFieldIcon('address', 'Onde pesquisar', 'location-arrow') !!}
+							{!! Form::numberFieldIcon('radius',
+									'Área coberta pela busca (até 50km)',
+									'arrows-h',
+									'',
+									['max' => 50],
+									20
+								)
+							!!}
+							{!! Form::selectField('category',
+								'Selecione o tipo da Assistência',
+								['AUTORIZADA' => 'Autorizada',
+									'ESPECIALIZADA' => 'Especializada
+								'],
+								['placeholder' => 'Buscar todos', 'data-selectize'])
+							!!}
+							{!! Form::selectField('typeProduct',
+								'Selecione o tipo do produto',
+								$typeProducts,
+								['placeholder' => 'Buscar todos', 'data-selectize'])
+							!!}
 
-					{!! Form::selectField('typeAssist',
-						'Selecione o tipo da Assistência',
-						['AUTORIZADA' => 'Autorizada',
-							'ESPECIALIZADA' => 'Especializada
-						'],
-						['placeholder' => 'Buscar todos'])
-					!!}
+							{!! Form::selectField('brandsAttended',
+								'Selecione a marca do produto',
+								$brandsAttendeds,
+								['placeholder' => 'Buscar todas as marcas', 'data-selectize'])
+							!!}
 
-					{!! Form::selectField('typeProduct',
-						'Selecione o tipo do produto',
-						['CELULARES' => 'celulares',
-							'ELETRONICOS' => 'Eletrônicos',
-							'GPS' => 'GPS',
-							'NOTEBOOK' => 'notebook'
-						],
-						['placeholder' => 'Buscar todos'])
-					!!}
 
-					{!! Form::selectField('brandsAttended',
-						'Selecione a marca do produto',
-						['samsung' => 'Samsung',
-							'lg' => 'lg',
-							'sony' => 'sony',
-							'dell' => 'dell'
-						],
-						['placeholder' => 'Buscar todas as marcas'])
-					!!}
-
-					{!! Form::numberField('radius',
-						'Área coberta pela busca (até 50km)',
-						40000,
-						['placeholder' => '25 km', 'max' => 50000])
-					!!}
-
-					<button type="submit"
-	                    class="btn btn-success"> Filtrar
-	                </button>
-	                <a href="https://www.googleapis.com/fusiontables/v2/query?sql=SELECT * FROM 1dJbVTrkNi8lSqIYVy_AOSnAU0vtpTlTwoXRsV8rQ&key=AIzaSyB3eIgwMkqQtZuM7iVJi2is6EoktemIZ8E">Link panois
-	                </a>                
-                </form>
+							<button type="submit"
+			                    class="btn btn-success btn-raised btn-block"><i class="fa fa-filter"></i> Filtrar
+			                </button>              
+		                </form>
+					</div>
+					<br>
+					<p>*Icones Amarelos: Assistência Autorizada;</p>
+					<p>*Icones brancos: Assistência Especializada;</p>
+				</div>
 			</div>
-			<br>
-			<p>*Icones Amarelos: Assistência Autorizada;</p>
-			<p>*Icones brancos: Assistência Especializada;</p>
 		</div>
 	</div>
 </div>
