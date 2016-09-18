@@ -125,14 +125,14 @@ window.initMap = function() {
   });
 
   rendererOptions = {
-    draggable: true
+    //draggable: true
   };
   infowindow = new google.maps.InfoWindow();
   service = new google.maps.places.PlacesService(map);
   geocoder = new google.maps.Geocoder;
   directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
   directionsService = new google.maps.DirectionsService();
-  directionsDisplay.setMap(map);
+  //directionsDisplay.setMap(map);
 
 }
 //obtem localização do usuario e centraliza mapa nela
@@ -146,6 +146,7 @@ if (navigator.geolocation) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
             $address.val(results[1].formatted_address);
+            console.log(results[1], results[1].address_components);
             getEverythingAroundMe();
           } else {
             console.log('Local não encontrado!');
@@ -179,7 +180,7 @@ function getEverythingAroundMe() {
       };
 
       //limpa tudo os trem antes de marcar os locais
-      clearMap()
+      clearMap();
 
       //pesquisa todos os locais em volta..
       markPlacesFromTables(pos);
@@ -236,6 +237,10 @@ function clearMap() {
   }
   if(markerMyLocation) {  
     markerMyLocation.setMap(null);
+  }
+
+  if(directionsDisplay) {
+    directionsDisplay.setMap(null);
   }
 }
 
@@ -339,7 +344,9 @@ function clearMap() {
       e.infoWindowHtml += "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>";
       //e.infoWindowHtml += "Horario de funcionamento:" + e.row['BusinessHoursDate'].value + "<br>";
 
-      e.infoWindowHtml += '<a onclick="calcRoute( &apos;' + end + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>';
+      e.infoWindowHtml += '<a onclick="calcRoute( &apos;'
+        + end
+        + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>';
 
      /*
       e.infoWindowHtml = e.row['Store Name'].value + "<br>";
@@ -355,6 +362,7 @@ function clearMap() {
   }
 
   window.calcRoute = function(end) {
+    directionsDisplay.setMap(map);
     var enderecoPartida = $('#address').val();
     var enderecoChegada = end;
 
@@ -364,7 +372,7 @@ function clearMap() {
       travelMode: google.maps.TravelMode.DRIVING,
       provideRouteAlternatives: true // ativar rotas alternativas
     };
-    
+
     directionsService.route(request, function(response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
