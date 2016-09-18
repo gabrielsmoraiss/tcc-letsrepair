@@ -29,8 +29,9 @@
                                     <td>{{ $assistencia['name'] }}</td>
                                     <td>{{ $assistencia['category'] }}</td>
                                     <td>
-                                        <a href="{{-- route('admin.pessoas.show', $assistencia['rowid']) --}}" title="Ver Assistência"
-                                        	class="btn btn-xs btn-info">
+                                        <a data-href="{{ route('assistence.show', $assistencia['rowid']) }}"
+                                            class="btn btn-info btn-xs" data-target="#show-assistence-modal"
+                                            href="" data-modal-open="" title="Ver Assistência">
                                             <i class="fa fa-search"></i>
                                         </a>
                                         <a data-href="{{ route('assistence.edit', $assistencia['rowid']) }}"
@@ -85,6 +86,13 @@
 
 <!-- Modal editar Assistencias -->
 <div class="modal fade" id="edit-assistence-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        
+    </div>
+</div>
+
+<!-- Modal editar Assistencias -->
+<div class="modal fade" id="show-assistence-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         
     </div>

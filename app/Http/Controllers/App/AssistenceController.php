@@ -64,7 +64,7 @@ class AssistenceController extends BaseController
     }
 
     /**
-     * Lista uma pessoa especifica contendo seus planos e faturas
+     * Lista uma assistencia especifica.
      *
      * @param  int $id
      * @return Response

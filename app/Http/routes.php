@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/index-admin', ['as' => 'auth.index-admin', 'uses' => 'Admin\AdminController@indexAdmin']);
 
 	Route::get('auth-google/{auth?}', ['as' => 'auth-google', 'uses' => 'Admin\AssistenceController@getGoogleLogin']);
+	
 	Route::resource('assistence', 'Admin\AssistenceController');
 	
 	Route::get('assistences/logout-google', ['as' => 'logout-google', 'uses' => 'Admin\AssistenceController@getGoogleLogout']);
