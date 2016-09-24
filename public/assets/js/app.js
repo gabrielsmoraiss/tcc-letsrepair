@@ -219,11 +219,13 @@ $form.submit(function(e) {
 
 //limpa todos os trem do mapa
 function clearMap() {
+  //google.maps.event.trigger(map, 'resize');
   if(typeof circle != "undefined") { 
     circle.setMap(null);
   }
-  console.log(typeof layer);
+  //console.log(typeof layer);
   if(typeof layer != "undefined") { 
+    //delete layer;
     layer.setMap(null);
   }
   if(typeof markerMyLocation != "undefined") {  
@@ -253,7 +255,6 @@ function clearMap() {
     google.maps.event.addListener(markerMyLocation, 'click', function() {
       infowindow = new google.maps.InfoWindow();
       infowindow.setContent('Minha Localização');
-      console.log(this);
       infowindow.open(map, this);
     });  
   }
@@ -264,12 +265,14 @@ function clearMap() {
       typeProduct = null,
       brandsAttended = null,
       radius = 50000
-    )
-  {
+    ) {    
+    
     var searchCategory = category ? 'category like \'' + category + '\' and ' : '';
     var searchTypeProduct = typeProduct ? 'typeProduct like \'%' + typeProduct + '%\' and ' : '';
     var searchBrandsAttended = brandsAttended ? 'brandsAttended like \'%' + brandsAttended + '%\' and ' : '';
     //console.log(searchCategory, searchTypeProduct, searchBrandsAttended);
+
+    map = new google.maps.Map(document.getElementById('map'));
 
     //Cria o circulo azul mostrando a abrangencia da pesquisa
     circle = new google.maps.Circle({
@@ -284,7 +287,7 @@ function clearMap() {
     });
 
     //camada  do fusion table
-    layer = new google.maps.FusionTablesLayer({
+    var layer = new google.maps.FusionTablesLayer({
       query: {
         select: '\'Location\'',
         from: tableId,
@@ -310,7 +313,7 @@ function clearMap() {
           }
         }
       ],
-      //suppressInfoWindows: true,
+      suppressInfoWindows: true,
       map: map
     });
 
@@ -325,9 +328,8 @@ function clearMap() {
     });
 
     google.maps.event.addListener(layer, 'click', function(e) {
-
-      var end = e.row['Location'].value;
-
+      //e.infoWindowHtml = "";
+      /*
       // Change the content of the InfoWindow
       e.infoWindowHtml = "<strong>Nome: </strong>" + e.row['name'].value + "<br>";
       e.infoWindowHtml += "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>";
@@ -337,8 +339,28 @@ function clearMap() {
       e.infoWindowHtml += '<a onclick="calcRoute( &apos;'
         + end
         + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>';
+*/
+      //console.log(e.latLng);
+      var end = e.row['Location'].value;
+      //console.log(infowindows);
+      if(typeof infowindows != "undefined") {
+        infowindows.setMap(null);
+      }
+      console.log(e.row);
+    
+      infowindows = new google.maps.InfoWindow();
+      infowindows.setContent("<strong>Nome: </strong>" + e.row['name'].value + "<br>"
+        + "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>"
+        + "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>"
+        + '<a onclick="calcRoute( &apos;' + end
+        + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>'
+      );
+        //+ "Horario de funcionamento:" + e.row['BusinessHoursDate'].value + "<br>"
+      infowindows.setPosition(e.latLng);
+      infowindows.open(map);
+      console.log(infowindows);
 
-     /*
+      /*
       e.infoWindowHtml = e.row['Store Name'].value + "<br>";
       // If the delivery == yes, add content to the window
       if (e.row['delivery'].value == 'yes') {
