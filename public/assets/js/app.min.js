@@ -100,19 +100,16 @@ $(document).on("click", "a[data-modal-open]", function(e) {
 },{}],5:[function(require,module,exports){
 exports.init = function() {
   
-var map;
-var service;
-var infowindow;
-var latlng;
-var geocoder;
-var circle;
-var layer;
-var rendererOptions;
-var directionsDisplay;
-var directionsService;
-
-var markerMyLocation;
-var tipoLocal = 'Autorizada';
+//var map;
+//var infowindow;
+//var latlng;
+//var geocoder;
+//var circle;
+//var layer;
+//var rendererOptions;
+//var directionsDisplay;
+//var directionsService;
+//var markerMyLocation;
 var tableId = '1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS';
 
 
@@ -123,16 +120,8 @@ window.initMap = function() {
     center: latlng,
     zoom: 9
   });
-
-  rendererOptions = {
-    draggable: true
-  };
-  infowindow = new google.maps.InfoWindow();
-  service = new google.maps.places.PlacesService(map);
-  geocoder = new google.maps.Geocoder;
-  directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-  directionsService = new google.maps.DirectionsService();
-  directionsDisplay.setMap(map);
+  
+  //directionsDisplay.setMap(map);
 
 }
 //obtem localização do usuario e centraliza mapa nela
@@ -142,10 +131,12 @@ if (navigator.geolocation) {
       var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
       var $address = $('#address');
       //Atribui localização encontrada ao input de onde pesquisar
+      geocoder = new google.maps.Geocoder;
       geocoder.geocode({'location': pos}, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
             $address.val(results[1].formatted_address);
+            //console.log(results[1], results[1].address_components);
             getEverythingAroundMe();
           } else {
             console.log('Local não encontrado!');
@@ -179,7 +170,7 @@ function getEverythingAroundMe() {
       };
 
       //limpa tudo os trem antes de marcar os locais
-      clearMap()
+      clearMap();
 
       //pesquisa todos os locais em volta..
       markPlacesFromTables(pos);
@@ -209,7 +200,7 @@ $form.submit(function(e) {
   var category = $('#category').val();
   var typeProduct = $('#typeProduct').val();
   var brandsAttended = $('#brandsAttended').val();
-    console.log(radius);
+  geocoder = new google.maps.Geocoder;
   geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       var pos = JSON.stringify(results[0].geometry.location);
@@ -228,14 +219,21 @@ $form.submit(function(e) {
 
 //limpa todos os trem do mapa
 function clearMap() {
-  if(circle) {  
+  //google.maps.event.trigger(map, 'resize');
+  if(typeof circle != "undefined") { 
     circle.setMap(null);
   }
-  if(layer) { 
+  //console.log(typeof layer);
+  if(typeof layer != "undefined") { 
+    //delete layer;
     layer.setMap(null);
   }
-  if(markerMyLocation) {  
+  if(typeof markerMyLocation != "undefined") {  
     markerMyLocation.setMap(null);
+  }
+
+  if(typeof directionsDisplay != "undefined") {
+    directionsDisplay.setMap(null);
   }
 }
 
@@ -255,8 +253,8 @@ function clearMap() {
     });
 
     google.maps.event.addListener(markerMyLocation, 'click', function() {
+      infowindow = new google.maps.InfoWindow();
       infowindow.setContent('Minha Localização');
-      console.log(this);
       infowindow.open(map, this);
     });  
   }
@@ -267,12 +265,14 @@ function clearMap() {
       typeProduct = null,
       brandsAttended = null,
       radius = 50000
-    )
-  {
+    ) {    
+    
     var searchCategory = category ? 'category like \'' + category + '\' and ' : '';
     var searchTypeProduct = typeProduct ? 'typeProduct like \'%' + typeProduct + '%\' and ' : '';
     var searchBrandsAttended = brandsAttended ? 'brandsAttended like \'%' + brandsAttended + '%\' and ' : '';
-    console.log(searchCategory, searchTypeProduct, searchBrandsAttended);
+    //console.log(searchCategory, searchTypeProduct, searchBrandsAttended);
+
+    map = new google.maps.Map(document.getElementById('map'));
 
     //Cria o circulo azul mostrando a abrangencia da pesquisa
     circle = new google.maps.Circle({
@@ -287,7 +287,7 @@ function clearMap() {
     });
 
     //camada  do fusion table
-    layer = new google.maps.FusionTablesLayer({
+    var layer = new google.maps.FusionTablesLayer({
       query: {
         select: '\'Location\'',
         from: tableId,
@@ -313,11 +313,9 @@ function clearMap() {
           }
         }
       ],
-      //suppressInfoWindows: true,
+      suppressInfoWindows: true,
       map: map
     });
-
-    
 
     google.maps.event.addListener(circle, 'mouseover', function(e) {
       circle.setVisible(false);
@@ -330,18 +328,39 @@ function clearMap() {
     });
 
     google.maps.event.addListener(layer, 'click', function(e) {
-
-      var end = e.row['Location'].value;
-
+      //e.infoWindowHtml = "";
+      /*
       // Change the content of the InfoWindow
       e.infoWindowHtml = "<strong>Nome: </strong>" + e.row['name'].value + "<br>";
       e.infoWindowHtml += "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>";
       e.infoWindowHtml += "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>";
       //e.infoWindowHtml += "Horario de funcionamento:" + e.row['BusinessHoursDate'].value + "<br>";
 
-      e.infoWindowHtml += '<a onclick="calcRoute( &apos;' + end + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>';
+      e.infoWindowHtml += '<a onclick="calcRoute( &apos;'
+        + end
+        + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>';
+*/
+      //console.log(e.latLng);
+      var end = e.row['Location'].value;
+      //console.log(infowindows);
+      if(typeof infowindows != "undefined") {
+        infowindows.setMap(null);
+      }
+      console.log(e.row);
+    
+      infowindows = new google.maps.InfoWindow();
+      infowindows.setContent("<strong>Nome: </strong>" + e.row['name'].value + "<br>"
+        + "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>"
+        + "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>"
+        + '<a onclick="calcRoute( &apos;' + end
+        + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>'
+      );
+        //+ "Horario de funcionamento:" + e.row['BusinessHoursDate'].value + "<br>"
+      infowindows.setPosition(e.latLng);
+      infowindows.open(map);
+      console.log(infowindows);
 
-     /*
+      /*
       e.infoWindowHtml = e.row['Store Name'].value + "<br>";
       // If the delivery == yes, add content to the window
       if (e.row['delivery'].value == 'yes') {
@@ -355,7 +374,15 @@ function clearMap() {
   }
 
   window.calcRoute = function(end) {
-    var enderecoPartida = $('#address').val();
+    rendererOptions = {
+      //draggable: true
+    };
+    directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+    directionsService = new google.maps.DirectionsService();
+
+    directionsDisplay.setMap(map);
+    var enderecoPartida = markerMyLocation.getPosition();
+    //var enderecoPartida = $('#address').val();
     var enderecoChegada = end;
 
     var request = {
@@ -364,17 +391,17 @@ function clearMap() {
       travelMode: google.maps.TravelMode.DRIVING,
       provideRouteAlternatives: true // ativar rotas alternativas
     };
-    
+
     directionsService.route(request, function(response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
       }
     });
   }
-
+/*
   //pesquisa pelo Places API
   function placeSearch(myLocation) {
-
+    service = new google.maps.places.PlacesService(map);
     //abrangencia das pesquisas e tamanho do circulo
     var radius = 50000; 
 
@@ -418,7 +445,7 @@ function clearMap() {
           scaledSize: new google.maps.Size(25, 25)
         }
       });
-
+          service = new google.maps.places.PlacesService(map);
       google.maps.event.addListener(marker, 'click', function() {
         service.getDetails(place, function(result, status) {
           if (status !== google.maps.places.PlacesServiceStatus.OK) {
@@ -435,6 +462,7 @@ function clearMap() {
     }
 
   } //fim pesquisa pelo places api
+*/
 
 }
 

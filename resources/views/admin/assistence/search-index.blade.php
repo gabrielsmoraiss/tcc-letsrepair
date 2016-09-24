@@ -6,19 +6,17 @@
 
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h1><i class="fa fa-gears"></i> Assistências</h1>
+            <h1><i class="fa fa-gears"></i> Buscar Assistências</h1>
         </div>
         <div class="panel-body">
-            <a href="{{ route('assistence.create') }}" class="btn btn-success btn-raised">
-                <i class="fa fa-plus"></i> Criar nova Assistência
-            </a>
             <div class="table-responsive col-sm-12">
                 <table id ="table-pessoas" class="display table data-table table-condensed">
                     <thead>
                         <tr>
                             <th>Nome</th>
                             <th>Tipo</th>
-                            <th>Gerenciar</th>
+                            <th>Endereço</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,26 +26,17 @@
                                 <tr>
                                     <td>{{ $assistencia['name'] }}</td>
                                     <td>{{ $assistencia['category'] }}</td>
+                                    <td>{{ strlen($assistencia['Location']) >= 55 ?
+                                        substr($assistencia['Location'], 0, 55) . ' ...' :
+                                        $assistencia['Location']
+                                    }}
+                                    </td>
                                     <td>
-                                        <a data-href="{{ route('assistence.show', $assistencia['rowid']) }}"
+                                        <a data-href="{{ route('search-assistence.show', $assistencia['rowid']) }}"
                                             class="btn btn-info btn-xs" data-target="#show-assistence-modal"
                                             href="" data-modal-open="" title="Ver Assistência">
                                             <i class="fa fa-search"></i>
                                         </a>
-                                        <a data-href="{{ route('assistence.edit', $assistencia['rowid']) }}"
-                                            class="btn btn-success btn-xs" data-target="#edit-assistence-modal"
-                                            href="" data-modal-open="" title="Editar">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                        {!!  Form::open(['route' => ['assistence.destroy', $assistencia['rowid']], 'method' => 'DELETE',
-                                            'data-id' => $assistencia['rowid'] , 'class' => 'form-horizontal','style' => 'display: inline-block'])
-                                        !!}
-        	                                <button data-id="{{ $assistencia['rowid'] }}"
-                                                type="submit" class="btn btn-xs btn-danger" title="Excluir"
-                                            >
-        	                                    <i class="fa fa-remove"></i>
-        	                                </button>
-                                        {!! Form::close() !!}
                                     </td>
                                 </tr>
                             @endforeach
@@ -81,13 +70,6 @@
                 <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Fechar</button>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Modal editar Assistencias -->
-<div class="modal fade" id="edit-assistence-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        
     </div>
 </div>
 

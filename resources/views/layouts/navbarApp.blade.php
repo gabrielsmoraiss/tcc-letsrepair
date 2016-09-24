@@ -10,8 +10,8 @@
     </div>
     <div class="navbar-collapse collapse navbar-inverse-collapse">
       <ul class="nav navbar-nav">
-        <li class="{{-- active('admin/assistence*') --}}">
-            <a href="{{-- route('admin.assistence') --}}" >
+        <li class="{{ active('admin/assistence*') }}">
+            <a href="{{ route('search-assistence.index') }}" >
                 Pesquisar Assistências
             </a>
         </li>
