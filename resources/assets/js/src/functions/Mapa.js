@@ -1,15 +1,7 @@
+var laroute = require('../../laroute.js');
+
 exports.init = function() {
   
-//var map;
-//var infowindow;
-//var latlng;
-//var geocoder;
-//var circle;
-//var layer;
-//var rendererOptions;
-//var directionsDisplay;
-//var directionsService;
-//var markerMyLocation;
 var tableId = '1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS';
 
 
@@ -229,43 +221,43 @@ function clearMap() {
 
     google.maps.event.addListener(layer, 'click', function(e) {
       //e.infoWindowHtml = "";
-      /*
-      // Change the content of the InfoWindow
-      e.infoWindowHtml = "<strong>Nome: </strong>" + e.row['name'].value + "<br>";
-      e.infoWindowHtml += "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>";
-      e.infoWindowHtml += "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>";
-      //e.infoWindowHtml += "Horario de funcionamento:" + e.row['BusinessHoursDate'].value + "<br>";
-
-      e.infoWindowHtml += '<a onclick="calcRoute( &apos;'
-        + end
-        + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>';
-*/
-      //console.log(e.latLng);
       var end = e.row['Location'].value;
-      //console.log(infowindows);
+      var url = laroute.route('search-assistence.store');
+      var urlBtn;
+
       if(typeof infowindows != "undefined") {
         infowindows.setMap(null);
       }
-      console.log(e.row);
-    
-      infowindows = new google.maps.InfoWindow();
-      infowindows.setContent("<strong>Nome: </strong>" + e.row['name'].value + "<br>"
-        + "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>"
-        + "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>"
-        + '<a onclick="calcRoute( &apos;' + end
-        + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>'
-      );
-        //+ "Horario de funcionamento:" + e.row['BusinessHoursDate'].value + "<br>"
-      infowindows.setPosition(e.latLng);
-      infowindows.open(map);
-      console.log(infowindows);
+      $.ajax({
+        method: 'POST',
+        url: url,
+        data: {
+          'Location': end
+        },
+        success: function(data) {
+          urlBtn = laroute.route('search-assistence.show', {
+            search_assistence: data.rowid
+          });
 
-      /*
-      e.infoWindowHtml = e.row['Store Name'].value + "<br>";
-      // If the delivery == yes, add content to the window
-      if (e.row['delivery'].value == 'yes') {
-        e.infoWindowHtml += "Delivers!";
-      }*/
+          infowindows = new google.maps.InfoWindow();
+      
+          infowindows.setContent("<strong>Nome: </strong>" + e.row['name'].value + "<br>"
+            + "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>"
+            + "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>"
+            + '<a onclick="calcRoute( &apos;' + end
+            + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>'
+            + '<a data-href="' + urlBtn + '" class="btn btn-info btn-xs" data-target="#show-assistence-modal"'
+            + 'href="" data-modal-open="">'
+            + '<i class="fa fa-search"></i> Ver Assistência </a>'
+          );
+            //+ "Horario de funcionamento:" + e.row['BusinessHoursDate'].value + "<br>"
+          infowindows.setPosition(e.latLng);
+          infowindows.open(map);
+        }
+      });
+
+    
+      
     });
       
     //marcar posição do user.

@@ -123,4 +123,35 @@ class AssistenceController extends BaseController
 
         return view('admin.assistence.search-show', compact('assistencia', 'typeProducts', 'brandsAttendeds'));
     }
+
+    /**
+     * Lista uma assistencia especifica.
+     *
+     * @param  int $id
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        $url = "https://www.googleapis.com/fusiontables/v2/query?";
+        $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, " .
+            "brandsAttendedWarranty, fone, info, active, businessHoursDate, hoursStart, hoursEnd ";
+        $url .= "FROM $this->tableAssistencesId WHERE Location like '$request->Location'&key=AIzaSyA9Up-4eYIsGn1cwwfMh-Zy1PAH-qPZJEc";
+
+        $assistences = [];
+        $headers = ['Accept' => 'application/json'];
+
+        $response = Requests::get($url, $headers);
+
+        if($response->success) {
+            $assistenciasJson = json_decode($response->body);
+            foreach ($assistenciasJson->rows as $key => $assistenciaJson) {
+
+                $assistencia[] = collect(array_combine($assistenciasJson->columns, $assistenciaJson));
+            }
+            $assistencia = $assistencia[0];
+        } else {
+            dd('Erro:', $response);
+        }
+        return $assistencia;
+    }
 }

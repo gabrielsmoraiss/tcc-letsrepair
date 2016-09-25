@@ -25,8 +25,6 @@
                 }}
             </p>
             <p><strong>Informações gerais: </strong>{{ $assistencia['info'] }}</p>
-
-            <a href="#">Ver no Mapa</a>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>

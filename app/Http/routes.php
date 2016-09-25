@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('assistence-request', 'Admin\AssistenceRequestController', ['except' => ['create', 'store']]);
 });
 
-Route::resource('search-assistence', 'App\AssistenceController', ['except' => ['create', 'store', 'update', 'edit', 'destroy']]);
+Route::resource('search-assistence', 'App\AssistenceController', ['except' => ['create', 'update', 'edit', 'destroy']]);
 
 Route::get('/assistence-solicitation', ['as' => 'assistence-solicitation.create', 'uses' => 'App\AssistenceRequestController@create']);
 Route::post('/assistence-solicitation', ['as' => 'assistence-solicitation.store', 'uses' => 'App\AssistenceRequestController@store']);
