@@ -25,6 +25,11 @@
                 }}
             </p>
             <p><strong>Informações gerais: </strong>{{ $assistencia['info'] }}</p>
+
+            <a class="btn btn-info btn-xs btn-raised"
+                href="{{ route('index', ['assistence' => $assistencia['rowid']]) }}">
+                <i class="fa fa-search"></i> Ver no Mapa
+            </a>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>

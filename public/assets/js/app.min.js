@@ -247,7 +247,7 @@ $.extend($.fn.dataTable.defaults, dataTablesConfig($('meta[name=locale]').prop('
 module.exports = StartApplication;
 
 
-},{"../functions/makeDataTableOnEach.js":7,"../functions/makeSelectizeOnEach.js":8,"../helpers/dataTablesConfig.js":9}],4:[function(require,module,exports){
+},{"../functions/makeDataTableOnEach.js":8,"../functions/makeSelectizeOnEach.js":9,"../helpers/dataTablesConfig.js":10}],4:[function(require,module,exports){
 //funcção para exibir modal de deletar
 $(document).on("click", "button[data-id]", function(e) {
   e.preventDefault();
@@ -287,25 +287,120 @@ $(document).on("click", "a[data-modal-open]", function(e) {
 
 },{}],6:[function(require,module,exports){
 var laroute = require('../../laroute.js');
+var getUrlVars = require('../functions/getUrlVars.js');
 
 exports.init = function() {
   
-var tableId = '1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS';
+  var tableId = '1aPLJfYAPlL3L2KVVC-FyZaspqnpv4MWK-dYpgbPS';
+
+  window.initMap = function() {
+    latlng = new google.maps.LatLng(-20.642921,-47.225273); //minha casa
+    //console.log(JSON.stringify(latlng));
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: latlng,
+      zoom: 9
+    });
+    https://developers.google.com/chart/interactive/docs/quick_start
+    //directionsDisplay.setMap(map);
 
 
-window.initMap = function() {
-  latlng = new google.maps.LatLng(-20.642921,-47.225273); //minha casa
-  //console.log(JSON.stringify(latlng));
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: latlng,
-    zoom: 9
-  });
-  
-  //directionsDisplay.setMap(map);
+    if(window.location.search) {
 
-}
-//obtem localização do usuario e centraliza mapa nela
-if (navigator.geolocation) {
+      var rowid = getUrlVars()['assistence'];
+      query = 'rowid=' + rowid;
+
+      url = laroute.route('search-assistence.show', {
+        search_assistence: rowid, map: true
+      });   
+      $.ajax({
+        method: 'GET',
+        url: url,
+        success: function(data) {
+
+          var geocoder = new google.maps.Geocoder();
+          var address = data.Location;
+          geocoder.geocode({'address': address}, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+              map.setCenter(results[0].geometry.location);
+              map.setZoom(15);
+            } else {
+              alert('Geocode was not successful for the following reason: ' + status);
+            }
+          });
+        }
+      });
+      //map = new google.maps.Map(document.getElementById('map'));
+      //camada  do fusion table
+      var layer = new google.maps.FusionTablesLayer({
+        query: {
+          select: '\'Location\'',
+          from: tableId,
+          where: query
+        },
+        styles: [{
+            where: 'category like \'AUTORIZADA\'',
+            markerOptions: {
+              iconName: "ylw_stars",
+              zIndex:100
+            }
+          }, {
+            where: 'category like \'ESPECIALIZADA\'',
+            markerOptions: {
+              iconName: "wht_blank",
+              zIndex:99
+            }
+          }
+        ],
+        suppressInfoWindows: true
+        //map: map
+      });
+
+      layer.setMap(map);
+      console.log(layer);
+      google.maps.event.addListener(layer, 'click', function(e) {
+        //e.infoWindowHtml = "";
+        var end = e.row['Location'].value;
+        var url = laroute.route('search-assistence.store');
+        var urlBtn;
+
+        if(typeof infowindows != "undefined") {
+          infowindows.setMap(null);
+        }
+        $.ajax({
+          method: 'POST',
+          url: url,
+          data: {
+            'Location': end
+          },
+          success: function(data) {
+            urlBtn = laroute.route('search-assistence.show', {
+              search_assistence: data.rowid
+            });
+
+            infowindows = new google.maps.InfoWindow();
+        
+            infowindows.setContent("<strong>Nome: </strong>" + e.row['name'].value + "<br>"
+              + "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>"
+              + "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>"
+              + '<a onclick="calcRoute( &apos;' + end
+              + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>'
+              + '<a data-href="' + urlBtn + '" class="btn btn-info btn-xs" data-target="#show-assistence-modal"'
+              + 'href="" data-modal-open="">'
+              + '<i class="fa fa-search"></i> Ver Assistência </a>'
+            );
+              //+ "Horario de funcionamento:" + e.row['BusinessHoursDate'].value + "<br>"
+            infowindows.setPosition(e.latLng);
+            infowindows.open(map);
+          }
+        });
+      });
+
+    }
+
+  }
+
+  //obtem localização do usuario e centraliza mapa nela
+  if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       //se achou o local e o navegador suporta
       var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
@@ -338,84 +433,82 @@ if (navigator.geolocation) {
     console.log('Navegador não suporta Geolocation');
   }
 
+  // Buscar todas as Assistências Na posição encontrada do user
+  function getEverythingAroundMe() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        //se achou o local e o navegador suporta
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
 
-// Buscar todas as Assistências Na posição encontrada do user
-function getEverythingAroundMe() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      //se achou o local e o navegador suporta
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
+        //limpa tudo os trem antes de marcar os locais
+        clearMap();
 
-      //limpa tudo os trem antes de marcar os locais
-      clearMap();
+        //pesquisa todos os locais em volta..
+        markPlacesFromTables(pos);
 
-      //pesquisa todos os locais em volta..
-      markPlacesFromTables(pos);
-
-    }, function() {
-      // se não encontrou a localização de nois
-      console.log('Geolocation não altorizado ou com problemas');
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    console.log('Navegador não suporta Geolocation');
+      }, function() {
+        // se não encontrou a localização de nois
+        console.log('Geolocation não altorizado ou com problemas');
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      console.log('Navegador não suporta Geolocation');
+    } 
   }
-
-}
 
 //Busca tudo ao redor
 $('#js-everythingAroundMe').on('click', function() {
   getEverythingAroundMe();
 });
 
-var $form = $("#form-busca");
-$form.submit(function(e) {
-  e.preventDefault();
+  var $form = $("#form-busca");
+  $form.submit(function(e) {
+    e.preventDefault();
 
-  var address = $('#address').val();
-  var radius = $('#radius').val() * 1000;
-  var category = $('#category').val();
-  var typeProduct = $('#typeProduct').val();
-  var brandsAttended = $('#brandsAttended').val();
-  geocoder = new google.maps.Geocoder;
-  geocoder.geocode( { 'address': address}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      var pos = JSON.stringify(results[0].geometry.location);
-      pos = JSON.parse(pos);
+    var address = $('#address').val();
+    var radius = $('#radius').val() * 1000;
+    var category = $('#category').val();
+    var typeProduct = $('#typeProduct').val();
+    var brandsAttended = $('#brandsAttended').val();
+    geocoder = new google.maps.Geocoder;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var pos = JSON.stringify(results[0].geometry.location);
+        pos = JSON.parse(pos);
 
-      clearMap();
-      //pesquisa os locais em volta..
-      markPlacesFromTables(pos, category, typeProduct, brandsAttended, parseInt(radius));
+        clearMap();
+        //pesquisa os locais em volta..
+        markPlacesFromTables(pos, category, typeProduct, brandsAttended, parseInt(radius));
 
-    } else {
-      console.log("Geocode was not successful for the following reason: " + status);
-    }
-  
+      } else {
+        console.log("Geocode was not successful for the following reason: " + status);
+      }
+    
+    });
   });
-});
 
-//limpa todos os trem do mapa
-function clearMap() {
-  //google.maps.event.trigger(map, 'resize');
-  if(typeof circle != "undefined") { 
-    circle.setMap(null);
-  }
-  //console.log(typeof layer);
-  if(typeof layer != "undefined") { 
-    //delete layer;
-    layer.setMap(null);
-  }
-  if(typeof markerMyLocation != "undefined") {  
-    markerMyLocation.setMap(null);
-  }
+  //limpa todos os trem do mapa
+  function clearMap() {
+    //google.maps.event.trigger(map, 'resize');
+    if(typeof circle != "undefined") { 
+      circle.setMap(null);
+    }
+    //console.log(typeof layer);
+    if(typeof layer != "undefined") { 
+      //delete layer;
+      layer.setMap(null);
+    }
+    if(typeof markerMyLocation != "undefined") {  
+      markerMyLocation.setMap(null);
+    }
 
-  if(typeof directionsDisplay != "undefined") {
-    directionsDisplay.setMap(null);
+    if(typeof directionsDisplay != "undefined") {
+      directionsDisplay.setMap(null);
+    }
   }
-}
 
   //marca e centraliza o usuario com a posição dada.
   function tagMe(myLocation) {
@@ -430,6 +523,7 @@ function clearMap() {
         position: myLocation,
         title: 'Minha Localização',
         icon: image,
+        draggable: true
     });
 
     google.maps.event.addListener(markerMyLocation, 'click', function() {
@@ -445,7 +539,8 @@ function clearMap() {
       typeProduct = null,
       brandsAttended = null,
       radius = 50000
-    ) {    
+    )
+  {    
     
     var searchCategory = category ? 'category like \'' + category + '\' and ' : '';
     var searchTypeProduct = typeProduct ? 'typeProduct like \'%' + typeProduct + '%\' and ' : '';
@@ -543,9 +638,6 @@ function clearMap() {
           infowindows.open(map);
         }
       });
-
-    
-      
     });
       
     //marcar posição do user.
@@ -646,7 +738,22 @@ function clearMap() {
 
 }
 
-},{"../../laroute.js":1}],7:[function(require,module,exports){
+},{"../../laroute.js":1,"../functions/getUrlVars.js":7}],7:[function(require,module,exports){
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+module.exports = getUrlVars;
+
+},{}],8:[function(require,module,exports){
 function makeDataTableOnEach() {
   var dataTableSelector = $('.data-table');
   if (dataTableSelector.length) {
@@ -669,7 +776,7 @@ function makeDataTableOnEach() {
 }
 module.exports = makeDataTableOnEach;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 function makeSelectizeOnEach() {
   var selectizeSelector = $('[data-selectize]');
   var options = {
@@ -703,7 +810,7 @@ function makeSelectizeOnEach() {
 
 module.exports = makeSelectizeOnEach;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var common = {
   responsive: true,
   order: []

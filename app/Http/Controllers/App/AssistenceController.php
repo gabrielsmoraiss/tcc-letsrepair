@@ -69,7 +69,7 @@ class AssistenceController extends BaseController
      * @param  int $id
      * @return Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $url = "https://www.googleapis.com/fusiontables/v2/query?";
         $url .= "sql=SELECT ROWID, name, category, Location, typeProduct, brandsAttended, " .
@@ -121,6 +121,9 @@ class AssistenceController extends BaseController
             $assistencia['brandsAttendedWarranty'] = implode(', ', $assistencia['brandsAttendedWarranty']->all());
         }
 
+        if($request->ajax() && !is_null($request->map)) {
+            return $assistencia;
+        }
         return view('admin.assistence.search-show', compact('assistencia', 'typeProducts', 'brandsAttendeds'));
     }
 
