@@ -242,8 +242,8 @@ function StartApplication() {
  	$('#hoursEnd').timepicki();
 }
 
-$.extend($.fn.dataTable.defaults, dataTablesConfig($('meta[name=locale]').prop('content')));
-
+//$.extend($.fn.dataTable.defaults, dataTablesConfig($('meta[name=locale]').prop('content')));
+$.extend($.fn.dataTable.defaults, dataTablesConfig);
 module.exports = StartApplication;
 
 
@@ -623,10 +623,10 @@ $('#js-everythingAroundMe').on('click', function() {
           });
 
           infowindows = new google.maps.InfoWindow();
-      
-          infowindows.setContent("<strong>Nome: </strong>" + e.row['name'].value + "<br>"
-            + "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>"
-            + "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>"
+          infowindows.setContent("<h3>" + e.row['name'].value + "</h3><br>"
+            + e.row['category'].value + "<br>"
+            + "<strong>" + e.row['Location'].value + "</strong><br>"
+            + "<strong>Fone: </strong>" + e.row['fone'].value + "<br>"
             + '<a onclick="calcRoute( &apos;' + end
             + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>'
             + '<a data-href="' + urlBtn + '" class="btn btn-info btn-xs" data-target="#show-assistence-modal"'
@@ -811,67 +811,31 @@ function makeSelectizeOnEach() {
 module.exports = makeSelectizeOnEach;
 
 },{}],10:[function(require,module,exports){
-var common = {
+module.exports = {
   responsive: true,
-  order: []
-};
-
-var configs = {
-  "en-US" : {
-    language: {
-      "sEmptyTable": "No records found",
-      "sInfo": "Showing from _START_ to _END_ of _TOTAL_ records",
-      "sInfoEmpty": "Showing from 0 to 0 of 0 records",
-      "sInfoFiltered": "(Filtered of _MAX_ records)",
-      "sInfoPostFix": "",
-      "sInfoThousands": ".",
-      "sLengthMenu": "Show _MENU_ results",
-      "sLoadingRecords": "Loading...",
-      "sProcessing": "Processing...",
-      "sZeroRecords": "No records found",
-      "sSearch": "Search: ",
-      "oPaginate": {
-        "sNext": "Next",
-        "sPrevious": "Previous",
-        "sFirst": "First",
-        "sLast": "Last"
-      },
-      "oAria": {
-        "sSortAscending": ": Sort columns ascending",
-        "sSortDescending": ": Sort columns descending"
-      }
-    }
-  },
-  "pt-BR": {
-    language: {
-      "sEmptyTable": "Nenhum registro encontrado",
-      "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-      "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-      "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-      "sInfoPostFix": "",
-      "sInfoThousands": ".",
-      "sLengthMenu": "Mostrar _MENU_ resultados",
-      "sLoadingRecords": "Carregando...",
-      "sProcessing": "Processando...",
-      "sZeroRecords": "Nenhum registro encontrado",
-      "sSearch": "Pesquisar: ",
-      "oPaginate": {
-        "sNext": "Próximo",
-        "sPrevious": "Anterior",
-        "sFirst": "Primeiro",
-        "sLast": "Último"
-      },
-      "oAria": {
-        "sSortAscending": ": Ordenar colunas de forma ascendente",
-        "sSortDescending": ": Ordenar colunas de forma descendente"
-      }
+  order: [],
+  language: {
+    "sEmptyTable": "Nenhum registro encontrado",
+    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+    "sInfoPostFix": "",
+    "sInfoThousands": ".",
+    "sLengthMenu": "Mostrar _MENU_ resultados",
+    "sLoadingRecords": "Carregando...",
+    "sProcessing": "Processando...",
+    "sZeroRecords": "Nenhum registro encontrado",
+    "sSearch": "Pesquisar: ",
+    "oPaginate": {
+      "sNext": "Próximo",
+      "sPrevious": "Anterior",
+      "sFirst": "Primeiro",
+      "sLast": "Último"
+    },
+    "oAria": {
+      "sSortAscending": ": Ordenar colunas de forma ascendente",
+      "sSortDescending": ": Ordenar colunas de forma descendente"
     }
   }
 };
-
-
-
-module.exports = function(locale) {
-  return $.extend(common, configs[locale] || configs['en-US']);
-}
 },{}]},{},[2]);

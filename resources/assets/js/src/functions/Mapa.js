@@ -335,10 +335,10 @@ $('#js-everythingAroundMe').on('click', function() {
           });
 
           infowindows = new google.maps.InfoWindow();
-      
-          infowindows.setContent("<strong>Nome: </strong>" + e.row['name'].value + "<br>"
-            + "<strong>Endereço: </strong>" + e.row['Location'].value + "<br>"
-            + "<strong>Telefone: </strong>" + e.row['fone'].value + "<br>"
+          infowindows.setContent("<h3>" + e.row['name'].value + "</h3><br>"
+            + e.row['category'].value + "<br>"
+            + "<strong>" + e.row['Location'].value + "</strong><br>"
+            + "<strong>Fone: </strong>" + e.row['fone'].value + "<br>"
             + '<a onclick="calcRoute( &apos;' + end
             + '&apos;)" id="makeRoute" class="btn btn-success btn-sm" title="Traçar rota">Como chegar</a>'
             + '<a data-href="' + urlBtn + '" class="btn btn-info btn-xs" data-target="#show-assistence-modal"'

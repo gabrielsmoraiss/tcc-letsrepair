@@ -35,7 +35,7 @@ function StartApplication() {
  	$('#hoursEnd').timepicki();
 }
 
-$.extend($.fn.dataTable.defaults, dataTablesConfig($('meta[name=locale]').prop('content')));
-
+//$.extend($.fn.dataTable.defaults, dataTablesConfig($('meta[name=locale]').prop('content')));
+$.extend($.fn.dataTable.defaults, dataTablesConfig);
 module.exports = StartApplication;
 

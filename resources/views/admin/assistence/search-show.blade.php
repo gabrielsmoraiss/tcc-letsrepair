@@ -3,28 +3,28 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="ModalLabel">Assistência: {{ $assistencia['name'] }}</h4>
+        <h3 class="modal-title" id="ModalLabel">{{ $assistencia['name'] }}</h3>
     </div>
         <div class="modal-body">
-            <p><strong>Categoria: </strong>{{ $assistencia['category'] }}</p>
-            <p><strong>Endereço: </strong>{{ $assistencia['Location'] }}</p>
-            <p><strong>Telefone: </strong>{{ $assistencia['fone'] }}</p>
-            <p><strong>Tipos de produtos: </strong>
+            <p><strong>Assistencia {{ strtolower($assistencia['category']) }}</strong></p>
+            <p><strong>{{ $assistencia['Location'] }}</strong></p>
+            <p><strong>Fone: </strong>{{ $assistencia['fone'] }}</p>
+            <p><strong>Atende: </strong>
                 {{ $assistencia['typeProduct'] }}
             </p>
-            <p><strong>Marcas Atendidas (Garantia): </strong>
+            <p><strong>Marcas Atendidas em Garantia: </strong>
                 {{ $assistencia['brandsAttendedWarranty'] }}
             </p>
-            <p><strong>Marcas Atendidas (Fora de garantia): </strong>
+            <p><strong>Fora de garantia: </strong>
                 {{ $assistencia['brandsAttended'] }}
             </p>
             <p><strong>Horario de Funcionamento: </strong>
-                {{ $assistencia['businessHoursDate'] . ' ' .
-                    $assistencia['hoursStart'] . ' ás ' .
-                    $assistencia['hoursEnd']
+                {{ !empty($assistencia['hoursStart']) ?
+                    $assistencia['businessHoursDate'] . ' - ' . $assistencia['hoursStart'] . ' ás ' .
+                    $assistencia['hoursEnd'] : $assistencia['businessHoursDate']
                 }}
             </p>
-            <p><strong>Informações gerais: </strong>{{ $assistencia['info'] }}</p>
+            <p>{{ $assistencia['info'] }}</p>
 
             <a class="btn btn-info btn-xs btn-raised"
                 href="{{ route('index', ['assistence' => $assistencia['rowid']]) }}">
