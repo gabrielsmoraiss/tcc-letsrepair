@@ -6,7 +6,7 @@
 
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h1><i class="fa fa-industry"></i> Buscar Assistências</h1>
+            <h1><i class="fa fa-search"></i> Buscar Assistências</h1>
         </div>
         <div class="panel-body">
             <div class="table-responsive col-sm-12">

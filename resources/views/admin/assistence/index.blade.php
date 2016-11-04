@@ -6,7 +6,7 @@
 
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h1><i class="fa fa-gears"></i> Assistências</h1>
+            <h1><i class="fa fa-industry"></i> Assistências</h1>
         </div>
         <div class="panel-body">
             <a href="{{ route('assistence.create') }}" class="btn btn-success btn-raised">

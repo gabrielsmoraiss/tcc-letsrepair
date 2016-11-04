@@ -5,7 +5,7 @@
 <div class="container">
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h1><i class="fa fa-gears"></i> Cadastro de Assistência</h1>
+            <h1><i class="fa fa-plus"></i> Cadastrar minha Assistência</h1>
         </div>
         {!! Form::open(['route' => 'assistence-solicitation.store']) !!}
             <div class="panel-body">

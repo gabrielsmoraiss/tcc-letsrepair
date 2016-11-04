@@ -6,7 +6,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand text-bold" href="{{ url('index') }}">Let's Repair</a>
+      <a class="pad-rgt" href="{{ url('index') }}">
+        <img style="width: 80px;" src="{{ asset('assets/images/logoClean.png') }}">
+      </a>
     </div>
     <div class="navbar-collapse collapse navbar-inverse-collapse">
       <ul class="nav navbar-nav">
