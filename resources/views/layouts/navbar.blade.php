@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
       </button>
       <a class="pad-rgt" href="{{ url('index-admin') }}">
-        <img style="width: 80px;" src="{{ asset('assets/images/logoClean.png') }}">
+        <img style="width: 80px; background-color: rgba(0, 0, 0, 0.1);" src="{{ asset('assets/images/logoClean.png') }}">
       </a>
     </div>
     <div class="navbar-collapse collapse navbar-inverse-collapse">
