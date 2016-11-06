@@ -12,12 +12,11 @@ exports.init = function() {
       center: latlng,
       zoom: 9
     });
-    https://developers.google.com/chart/interactive/docs/quick_start
     //directionsDisplay.setMap(map);
 
 
     if(window.location.search) {
-
+      //alert('loco');
       var rowid = getUrlVars()['assistence'];
       query = 'rowid=' + rowid;
 
@@ -68,7 +67,7 @@ exports.init = function() {
       });
 
       layer.setMap(map);
-      console.log(layer);
+      //console.log(layer);
       google.maps.event.addListener(layer, 'click', function(e) {
         //e.infoWindowHtml = "";
         var end = e.row['Location'].value;
@@ -107,42 +106,42 @@ exports.init = function() {
         });
       });
 
+    } else {
+      //obtem localização do usuario e centraliza mapa nela
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          //se achou o local e o navegador suporta
+          var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
+          var $address = $('#address');
+          //Atribui localização encontrada ao input de onde pesquisar
+          geocoder = new google.maps.Geocoder;
+          geocoder.geocode({'location': pos}, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+              if (results[1]) {
+                $address.val(results[1].formatted_address);
+                //console.log(results[1], results[1].address_components);
+                getEverythingAroundMe();
+              } else {
+                console.log('Local não encontrado!');
+              }
+            } else {
+              console.log('Geocoder failed due to: ' + status);
+            }
+          });
+
+          //centraliza mapa na posição encontrada
+          map.setCenter(pos);
+
+        }, function() {
+          // se não encontrou a localização de nois
+          console.log('Geolocation não autorizado ou com problemas');
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        console.log('Navegador não suporta Geolocation');
+      }
     }
 
-  }
-
-  //obtem localização do usuario e centraliza mapa nela
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      //se achou o local e o navegador suporta
-      var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
-      var $address = $('#address');
-      //Atribui localização encontrada ao input de onde pesquisar
-      geocoder = new google.maps.Geocoder;
-      geocoder.geocode({'location': pos}, function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-          if (results[1]) {
-            $address.val(results[1].formatted_address);
-            //console.log(results[1], results[1].address_components);
-            getEverythingAroundMe();
-          } else {
-            console.log('Local não encontrado!');
-          }
-        } else {
-          console.log('Geocoder failed due to: ' + status);
-        }
-      });
-
-      //centraliza mapa na posição encontrada
-      map.setCenter(pos);
-
-    }, function() {
-      // se não encontrou a localização de nois
-      console.log('Geolocation não autorizado ou com problemas');
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    console.log('Navegador não suporta Geolocation');
   }
 
   // Buscar todas as Assistências Na posição encontrada do user
