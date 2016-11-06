@@ -335,7 +335,7 @@ $('#js-everythingAroundMe').on('click', function() {
           });
 
           infowindows = new google.maps.InfoWindow();
-          infowindows.setContent("<h3>" + e.row['name'].value + "</h3><br>"
+          infowindows.setContent("<p class='text-2x'>" + e.row['name'].value + "</p> <br>"
             + e.row['category'].value + "<br>"
             + "<strong>" + e.row['Location'].value + "</strong><br>"
             + "<strong>Fone: </strong>" + e.row['fone'].value + "<br>"
@@ -379,9 +379,69 @@ $('#js-everythingAroundMe').on('click', function() {
     directionsService.route(request, function(response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
+      calculos(response);
       }
     });
   }
+
+  function calculos(result) {
+    //console.log(result);
+    //return;
+    var consumoVeiculo = 10; //carro
+    var consumoMoto = 27; //carro
+    var valorCombustivel = 3.60; // gasolina
+    var valorCombustivelAlcool = 2.60; // alcool
+    var distanciaKm = 0;
+    var segundos = 0;
+    var horas = 0;
+    var minutos = 0;
+    var myroute = result.routes[0];
+    var litrosKm = 0;
+    var custoViagem = 0;
+    var enderecoPartidaFormatado;
+    var enderecoPartidaFormatado;
+    
+    for (var i = 0; i < myroute.legs.length; i++) {
+      distanciaKm += myroute.legs[i].distance.value; // recebo a distancia em Metros
+      segundos += myroute.legs[i].duration.value; // recebo a duraçao em Segundos
+      //enderecoPartidaFormatado = myroute.legs[i].start_address; // recebo as informaçoes de endereço do ponto "A"
+      //enderecoChegadaFormatado = myroute.legs[i].end_address; // recebo as informaçoes de endereço do ponto "B" 
+    }
+    
+    
+    // calculo da Rota de segundos para hora e minuto
+    horas = segundos / 3600;
+    horas = Math.floor(horas);
+    segundos -= horas * 3600;
+    minutos = segundos / 60;
+    minutos = minutos.toFixed(); 
+    segundos -= minutos * 60;
+    segundos = segundos.toFixed();
+    tempo = horas ? horas + ' horas e  ' : '';
+    tempo += minutos +' minutos';
+    //document.getElementById('tempo').innerHTML = '<b>Tempo estimado: </b>' + horas + ' horas e  ' + minutos +' minutos';
+    
+    //distancia/km
+    distanciaKm = distanciaKm / 1000.0;
+    distanciaKm = distanciaKm.toFixed(1);
+    //document.getElementById('distanciaKm').innerHTML = '<b>Distancia: </b>' + distanciaKm + ' km';
+    
+    // Consumo da viagem
+    litrosKm = distanciaKm / consumoVeiculo;
+    custoViagem = litrosKm * valorCombustivel;
+    custoViagem = custoViagem.toFixed(2);
+    //document.getElementById('custo').innerHTML = '<b>Custo da Viagem (R$): </b>' + custoViagem;
+
+    infowindowCusto = new google.maps.InfoWindow();
+    infowindowCusto.setContent('<strong>Tempo estimado: </strong>' + tempo
+      + '<br/>' + '<strong>Distancia: </strong>' + distanciaKm + ' km'
+      + '<br/>' + '<strong>Custo da Viagem (R$): </strong>' + custoViagem
+    );
+    infowindowCusto.setPosition(markerMyLocation.getPosition());
+    infowindowCusto.open(map);
+
+  }
+
 /*
   //pesquisa pelo Places API
   function placeSearch(myLocation) {
