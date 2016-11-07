@@ -14,13 +14,13 @@
 
 
 <body>
-    {!! Html::flash() !!}
     {{--dd(!Request::is('index'))--}}
     @if($current_user)
         @include('layouts.navbar')
     @else
         @include('layouts.navbarApp')
     @endif
+    {!! Html::flash() !!}
 
     @yield('content')
 

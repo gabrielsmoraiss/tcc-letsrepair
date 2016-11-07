@@ -298,7 +298,7 @@ exports.init = function() {
     //console.log(JSON.stringify(latlng));
     map = new google.maps.Map(document.getElementById('map'), {
       center: latlng,
-      zoom: 9
+      zoom: 16
     });
     //directionsDisplay.setMap(map);
 
@@ -513,7 +513,7 @@ $('#js-everythingAroundMe').on('click', function() {
   function tagMe(myLocation) {
 
     map.setCenter(myLocation);
-    map.setZoom(11);
+    map.setZoom(14);
     //fazer if para descobrir melhor zoom dependendo da area de cobertura
 
     var image = 'https://cdn4.iconfinder.com/data/icons/map1/502/Untitled-11-48.png';
@@ -722,79 +722,12 @@ $('#js-everythingAroundMe').on('click', function() {
     infowindowCusto = new google.maps.InfoWindow();
     infowindowCusto.setContent('<strong>Tempo estimado: </strong>' + tempo
       + '<br/>' + '<strong>Distancia: </strong>' + distanciaKm + ' km'
-      + '<br/>' + '<strong>Custo da Viagem (R$): </strong>' + custoViagem
+      + '<br/>' + '<strong>Custo da Viagem R$: </strong>' + custoViagem
     );
     infowindowCusto.setPosition(markerMyLocation.getPosition());
     infowindowCusto.open(map);
 
   }
-
-/*
-  //pesquisa pelo Places API
-  function placeSearch(myLocation) {
-    service = new google.maps.places.PlacesService(map);
-    //abrangencia das pesquisas e tamanho do circulo
-    var radius = 50000; 
-
-    var scopeCircle = new google.maps.Circle({
-      strokeColor: '#0000ff',
-      strokeOpacity: 0.4,
-      strokeWeight: 1,
-      fillColor: '#0000ff',
-      fillOpacity: 0.07,
-      map: map,
-      center: myLocation,
-      radius: radius
-    });
-
-    var options = {
-      //bounds: map.getBounds(),
-      keyword: 'Assistência Técnica',
-      location: myLocation,
-      radius: radius,
-      types: ['establishment', 'electronics_store'],
-    };
-    //service.nearbySearch(options, callback); // locais proximos
-    service.radarSearch(options, callback);
-
-    function callback(results, status) {
-      if (status !== google.maps.places.PlacesServiceStatus.OK) {
-        console.error(status);
-        return;
-      }
-      for (var i = 0, result; result = results[i]; i++) {
-        addMarker(result);
-      }
-    }
-
-    function addMarker(place) {
-      var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location,
-        icon: {
-          url: 'https://cdn2.iconfinder.com/data/icons/snipicons/500/map-marker-48.png',
-          scaledSize: new google.maps.Size(25, 25)
-        }
-      });
-          service = new google.maps.places.PlacesService(map);
-      google.maps.event.addListener(marker, 'click', function() {
-        service.getDetails(place, function(result, status) {
-          if (status !== google.maps.places.PlacesServiceStatus.OK) {
-            console.error(status);
-            return;
-          }
-          console.log(result.types);
-          var tipos = result.types;
-          infowindow.setContent('Nome: ' + result.name + ' Tipo: ' + tipos.join(" , "));
-          infowindow.open(map, marker);
-          console.log(result);
-        }); 
-      });
-    }
-
-  } //fim pesquisa pelo places api
-*/
-
 }
 
 },{"../../laroute.js":1,"../functions/getUrlVars.js":7}],7:[function(require,module,exports){
